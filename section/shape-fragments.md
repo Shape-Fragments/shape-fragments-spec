@@ -74,13 +74,13 @@ Example with `sh:targetSubjectsOf`:
 
 
 ## Value type constraint components
-Subsection about neighborhoods for constraints of kinds: `sh:ClassConstraintComponent`, `sh:DatatypeConstraintComponent`, `sh:NodeKindConstraintComponent`
+_Subsection about neighborhoods for constraints of kinds: `sh:ClassConstraintComponent`, `sh:DatatypeConstraintComponent`, `sh:NodeKindConstraintComponent`_
 
-The neighborhood for a node and a constraint of kind value type contains the triples from the data graph that make the node have the specified type of value.
+The neighborhood for a node and a constraint of a [value type](https://www.w3.org/TR/shacl/#core-components-value-type) kind contains the triples from the data graph that make the node have the specified type of value.
 
-If the value type constraint is kind sh:ClassConstraintComponent, the neighborhood contains the triples in the data graph that declare the node has the class specified with sh:class. These are the triples on paths in the data graph that match the property path `$value rdf:type/rdfs:subClassOf* $class`.
+If the value type constraint is kind `sh:ClassConstraintComponent`, the neighborhood contains the triples in the data graph that declare the node has the class specified with `sh:class`. These are the triples on paths in the data graph that match the property path `$value rdf:type/rdfs:subClassOf* $class`.
 
-If a value type constraint is used in a property shape, the neighborhood for a node x and this constraint also includes the path triples defined by the property shape’s property path expression, start node x and end node y, for all nodes y that conform to the constraint.
+If a value type constraint is used in a property shape, the neighborhood for a node x and this constraint also includes the [path triples](#path-triples) defined by the property shape’s property path expression, start node x and end node y, for all nodes y that conform to the constraint.
 ### Examples
 Example with `sh:class`:
 
@@ -132,9 +132,9 @@ Example with `sh:nodeKind`:
 </pre>
 
 ## Cardinality constraint components
-Subsection about neighborhoods for constraints of kinds: `sh:MinCountConstraintComponent`, `sh:MaxCountConstraintComponent`
+_Subsection about neighborhoods for constraints of kinds: `sh:MinCountConstraintComponent`, `sh:MaxCountConstraintComponent`_
 
-The neighborhood for cardinality constraints contains those triples that show that nodes conform to this constraint. For both minimum and maximum cardinality constraints, the neighborhood of a node x contains the path triples defined by the constraint’s property path expression, start node x and end node y, for all y reachable from x through paths that match the property path expression.
+The neighborhood for cardinality constraints contains those triples that show that nodes conform to this constraint. For both minimum and maximum cardinality constraints, the neighborhood of a node `x` contains the [path triples](#path-triples) defined by the constraint’s property path expression, start node `x` and end node `y`, for all nodes `y` reachable from `x` through paths that match the property path expression.
 ### Examples
 Example with `sh:minCount`:
 <pre class="ex-input">
@@ -152,9 +152,9 @@ Example with `sh:minCount`:
 </pre>
 
 ## Value range constraint components
-Subsection about neighborhoods for constraints of kinds: `sh:MinExclusiveConstraintComponent`, `sh:MinInclusiveConstraintComponent`, `sh:MaxExclusiveConstraintComponent`, `sh:MaxInclusiveConstraintComponent`
+_Subsection about neighborhoods for constraints of kinds: `sh:MinExclusiveConstraintComponent`, `sh:MinInclusiveConstraintComponent`, `sh:MaxExclusiveConstraintComponent`, `sh:MaxInclusiveConstraintComponent`_
 
-If a value range constraint is used in a property shape, the neighborhood for a node `x` and this constraint includes the path triples defined by the property shape’s property path expression, start node `x` and end node `y`, for all nodes `y` reachable from `x` through a path matching the property path expression.
+If a value range constraint is used in a property shape, the neighborhood for a node `x` and this constraint includes the [path triples](#path-triples) defined by the property shape’s property path expression, start node `x` and end node `y`, for all nodes `y` reachable from `x` through a path matching the property path expression.
 ### Examples
 Example with `sh:minInclusive` and `sh:maxInclusive`: 
 <pre class="ex-input">
@@ -174,9 +174,9 @@ Example with `sh:minInclusive` and `sh:maxInclusive`:
 :Bob :age 23 .
 </pre>
 ## String-based constraint components
-Subsection about neighborhoods for constraints of kinds: sh:MinLengthConstraintComponent, sh:MaxLengthConstraintComponent, sh:PatternConstraintComponent, sh:LanguageInConstraintComponent, sh:UniqueLangConstraintComponent
+_Subsection about neighborhoods for constraints of kinds: `sh:MinLengthConstraintComponent`, `sh:MaxLengthConstraintComponent`, `sh:PatternConstraintComponent`, `sh:LanguageInConstraintComponent`, `sh:UniqueLangConstraintComponent`_
 
-If a string-based constraint is used in a property shape,  the neighborhood for a node x and this constraint includes the path triples defined by the property shape’s property path expression, start node x and end node y, for all nodes y reachable from x through a path matching the property path expression.
+If a string-based constraint is used in a property shape,  the neighborhood for a node `x` and this constraint includes the [path triples](#path-triples) defined by the property shape’s property path expression, start node `x` and end node `y`, for all nodes `y` reachable from `x` through a path matching the property path expression.
 Examples
 Example with `sh:minLength` and `sh:maxLength`: 
 <pre class="ex-input">
@@ -276,11 +276,11 @@ Example with `sh:UniqueLang`:
 </pre>
 
 ## Property pair constraint components
-Subsection about neighborhoods for constraints of kinds: `sh:EqualsConstraintComponent`, `sh:DisjointConstraintComponent`, `sh:LessThanConstraintComponent`, `sh:LessThanOrEqualsConstraintComponent`
+_Subsection about neighborhoods for constraints of kinds: `sh:EqualsConstraintComponent`, `sh:DisjointConstraintComponent`, `sh:LessThanConstraintComponent`, `sh:LessThanOrEqualsConstraintComponent`_
 
 Except for equals constraint components, the neighborhoods for property pair constraint components are empty.
 
-The neighborhood for a node `x` and an equals constraint includes both (i) path triples defined by the property shape’s property path expression, start node `x` and end node `y` for all nodes `y`, and (ii) triples in the data graph with subject `x` and the predicate specified after `sh:equals`.
+The neighborhood for a node `x` and an equals constraint includes both (i) [path triples](#path-triples) defined by the property shape’s property path expression, start node `x` and end node `y` for all nodes `y`, and (ii) triples in the data graph with subject `x` and the predicate specified after `sh:equals`.
 ### Examples
 Example with `sh:equals`: 
 <pre class="ex-input">
@@ -302,7 +302,7 @@ Example with `sh:equals`:
 </pre>
 
 ## Logical constraint components (excluding negation)
-Subsection about neighborhoods for constraints of kinds: `sh:AndConstraintComponent`, `sh:OrConstraintComponent`, `sh:XoneConstraintComponent`
+_Subsection about neighborhoods for constraints of kinds: `sh:AndConstraintComponent`, `sh:OrConstraintComponent`, `sh:XoneConstraintComponent`_
 
 The neighborhood for a node and a logical constraint of kind "and", "or" or "xone" is the union of the neighborhoods of the shapes that are contained in the list specified in the constraint parameter.
 ### Examples
@@ -393,19 +393,19 @@ Example with `sh:xone`:
 </pre>
 
 ## Shape-based constraint components
-Subsection about neighborhoods for constraints of kinds: `sh:NodeConstraintComponent`, `sh:PropertyShapeComponent`, `sh:QualifiedMinCountConstraintComponent`, `sh:QualifiedMaxCountConstraintComponent`
+_Subsection about neighborhoods for constraints of kinds: `sh:NodeConstraintComponent`, `sh:PropertyShapeComponent`, `sh:QualifiedMinCountConstraintComponent`, `sh:QualifiedMaxCountConstraintComponent`_
 
 The neighborhood for a node and a shape-based constraint depends on the type of shape-based constraint.
 
-For node and property constraint components (sh:node, sh:property), the neighborhood of a node contains all the triples in the neighborhood for that node and the shape specified after sh:node/sh:property. If the constraint is used in a property shape, the neighborhood for a node x and this constraint also includes the path triples defined by the property shape’s property path expression, start node x and end node y, for all nodes y reachable from x through a path matching the property path expression.
+For node and property constraint components (`sh:node`, `sh:property`), the neighborhood of a node contains all the triples in the neighborhood for that node and the shape specified after `sh:node`/`sh:property`. If the constraint is used in a property shape, the neighborhood for a node `x` and this constraint also includes the [path triples](#path-triples) defined by the property shape’s property path expression, start node `x` and end node `y`, for all nodes `y` reachable from `x` through a path matching the property path expression.
 
-For qualified min count constraint components, the neighborhood of a node x contains following triples for each node y that both (i) conforms to the shape specified after sh:qualifiedValueShape and (ii) is reachable from x through a path matching the property path expression:
-all path triples defined by the shape’s property path expression, start node x and end node y
-the neighborhood for node y and the shape specified after sh:qualifiedValueShape.
+For qualified min count constraint components, the neighborhood of a node `x` contains following triples for each node `y` that both (i) conforms to the shape specified after `sh:qualifiedValueShape` and (ii) is reachable from `x` through a path matching the property path expression:
+- all [path triples](#path-triples) defined by the shape’s property path expression, start node `x` and end node ``y
+- the neighborhood for node `y` and the shape specified after `sh:qualifiedValueShape`.
 
-For qualified max count constraint components, the neighborhood of a node x contains following triples for each node y that both (i) conforms to the negation of the shape specified after sh:qualifiedValueShape and (ii) is reachable from x through a path matching the property path expression:
-all path triples defined by the shape’s property path expression, start node x and end node y
-the neighborhood for node y and the negation of the shape specified after sh:qualifiedValueShape.
+For qualified max count constraint components, the neighborhood of a node `x` contains following triples for each node `y` that both (i) conforms to the negation of the shape specified after `sh:qualifiedValueShape` and (ii) is reachable from `x` through a path matching the property path expression:
+- all [path triples](#path-triples) defined by the shape’s property path expression, start node `x` and end node `y`
+- the neighborhood for node `y` and the negation of the shape specified after `sh:qualifiedValueShape`.
 ### Examples
 Example with `sh:node`: 
 <pre class="ex-input">
@@ -477,7 +477,7 @@ Example with `sh:qualifiedMinCount`:
 </pre>
 
 ## Other constraint components
-Subsection about neighborhoods for constraints of kinds: sh:ClosedConstraintComponent, sh:HasValueConstraintComponent, sh:InConstraintComponent
+_Subsection about neighborhoods for constraints of kinds: sh:ClosedConstraintComponent, sh:HasValueConstraintComponent, sh:InConstraintComponent_
 
 The neighborhood for “other” constraints is empty. These constraints are used as a condition on whether the neighborhood for the shape they are part of is empty for a given node, but do not return anything themselves.
 ### Examples
@@ -539,7 +539,7 @@ Example with `sh:in`:
 </pre>
 
 ## Path triples {#path-triples}
-We introduce the term path triples to refer to triples in the data graph that lay on a path. Path triples are defined by a property path expression, a start node, and an end node. Given a property path expression, start node and end node, the path triples are exactly those triples in the data graph on paths that (i) start in the start node, (ii) match the property path and (iii) end in the end node.
+We introduce the term [path triples](#path-triples) to refer to triples in the data graph that lay on a path. Path triples are defined by a property path expression, a start node, and an end node. Given a property path expression, start node and end node, the [path triples](#path-triples) are exactly those triples in the data graph on paths that (i) start in the start node, (ii) match the property path and (iii) end in the end node.
 ### Examples
 In the following example, the first triple in the input matches the above criteria and is present in the shape fragment. The second triple in the input is not returned since its end node does not conform to the example constraints: it is an IRI instead of a literal. The third triple in the input is not returned since its predicate does not match the path expression
 
@@ -561,7 +561,7 @@ In the following example, the first triple in the input matches the above criter
  :name “Alice” .
 </pre>
 
-Following example shape will extract a fragment containing transitive friends of :Alice and :Xander (if any).
+Following example shape will extract a fragment containing transitive friends of `:Alice` and `:Xander` (if any).
 
 <pre class="ex-input">
 :Alice 
@@ -586,9 +586,9 @@ Following example shape will extract a fragment containing transitive friends of
 </pre>
 
 ## Negation
-Subsection about neighborhoods for constraints of kinds: sh:NotConstraintComponent
+_Subsection about neighborhoods for constraints of kinds: `sh:NotConstraintComponent`_
 
-The neighborhood for a negative constraint (defined with sh:not) depends on the shape being negated. We give the neighborhood definitions for five types of constraints in the next five paragraphs. For other constraints they are empty. 
+The neighborhood for a negative constraint (defined with `sh:not`) depends on the shape being negated. We give the neighborhood definitions for five types of constraints in the next five paragraphs. For other constraints they are empty. 
 
 For some constraint types, we define the neighborhood of their negation by giving an equivalent shape.  An engine could implement this for example using shape rewriting. The rewriting is guaranteed to end; it is always possible to reach a negation normal form where the neighborhood of every negated constraint is clearly defined.
 
@@ -596,7 +596,7 @@ Note: we treat shapes with multiple constraints as conjunctions of their constra
 ### Negation of cardinality constraints
 The negation of cardinality constraints is given by changing the cardinality constraint’s direction. As shown per example.
 #### Examples
-Following shapes are equivalent by pushing the negation (sh:not) inside the min count constraint (sh:minCount):
+Following shapes are equivalent by pushing the negation (`sh:not`) inside the min count constraint (`sh:minCount`):
 
 <pre class="ex-shape">
 :negatedMinCountShape
@@ -610,7 +610,7 @@ Following shapes are equivalent by pushing the negation (sh:not) inside the min 
   sh:maxCount 3 .
 </pre>
 
-Following shapes are equivalent by pushing the negation (sh:not) inside the max count constraint (sh:maxCount):
+Following shapes are equivalent by pushing the negation (`sh:not`) inside the max count constraint (`sh:maxCount`):
 
 <pre class="ex-shape">
 :negatedMaxCountShape
@@ -627,7 +627,7 @@ Following shapes are equivalent by pushing the negation (sh:not) inside the max 
 ### Negation of shape-based constraints
 The neighborhood of negated shape-based constraints is given by pushing the negation inside those constraints and changing the quantifier. The laws we use to define the pushing inside are based on negations of quantified predicates. We illustrate the pushing inside by example for negated node shape constraints, negated qualified min count constraints and negated qualified max count constraints:
 #### Examples
-Following shapes are equivalent by pushing the negation (sh:not) inside the node shape constraint (sh:node):
+Following shapes are equivalent by pushing the negation (`sh:not`) inside the node shape constraint (`sh:node`):
 
 <pre class="ex-shape">
 :negatedNodeShape
@@ -643,7 +643,7 @@ Following shapes are equivalent by pushing the negation (sh:not) inside the node
     sh:not :shape ] .
 </pre>
 
-Following shapes are equivalent by pushing the negation (sh:not) inside the qualified min count constraint (sh:qualifiedMinCount) and changing the qualified cardinality accordingly:
+Following shapes are equivalent by pushing the negation (`sh:not`) inside the qualified min count constraint (`sh:qualifiedMinCount`) and changing the qualified cardinality accordingly:
 
 <pre class="ex-shape">
 :negatedQualifiedMinCountShape
@@ -661,7 +661,7 @@ Following shapes are equivalent by pushing the negation (sh:not) inside the qual
 
 </pre>
 
-Following shapes are equivalent by pushing the negation (sh:not) inside the qualified max count constraint (sh:qualifiedMaxCount) and changing the qualified cardinality accordingly:
+Following shapes are equivalent by pushing the negation (`sh:not`) inside the qualified max count constraint (`sh:qualifiedMaxCount`) and changing the qualified cardinality accordingly:
 
 <pre class="ex-shape">
 :negatedQualifiedMaxCountShape
@@ -681,7 +681,7 @@ Following shapes are equivalent by pushing the negation (sh:not) inside the qual
 ### Negation of logical constraints
 The neighborhood of negated logical constraints is given by pushing the negation inside those constraints using logical laws. Negating another negation removes both negations (double negative). For the other logical constraints, De Morgan’s laws are used.
 #### Examples
-Following shapes are equivalent by pushing the negation (sh:not) inside the conjunction (sh:and) using De Morgan’s law:
+Following shapes are equivalent by pushing the negation (`sh:not`) inside the conjunction (`sh:and`) using De Morgan’s law:
 
 <pre class="ex-shape">
 :negatedConjunctionShape
@@ -696,20 +696,21 @@ Following shapes are equivalent by pushing the negation (sh:not) inside the conj
 </pre>
 
 ### Negation of property pair constraints
-The neighborhoods of negated property pair constraints contain those triples that show the property pair constraint is not satisfied. To define these neighborhoods, we will call use the name “E” to refer to the constraint’s property path expression and we will use “p” to refer to the property specified as after the property pair constraint’s parameter (sh:equals/sh:disjoint/sh:lessThan/sh:lessThanOrEquals).
+The neighborhoods of negated property pair constraints contain those triples that show the property pair constraint is not satisfied. To define these neighborhoods, we will call use the name `E` to refer to the constraint’s property path expression and we will use `p` to refer to the property specified as after the property pair constraint’s parameter (`sh:equals`/`sh:disjoint`/`sh:lessThan`/`sh:lessThanOrEquals`).
 
-The neighborhood of a node x and a negated equals constraint component contains:
-The path triples defined by the E, start node x and end node y, for those nodes y that are reachable from x through an E-path, but not through an p-path.
-The triples in the data graph that have subject x, predicate p, and object y, on the condition that y is not also reachable from x through an E-path.
+The neighborhood of a node `x` and a negated equals constraint component contains:
+- The [path triples](#path-triples) defined by path expression `E`, start node `x` and end node `y`, for those nodes `y` that are reachable from `x` through an `E`-path, but not through a `p`-path.
+- The triples in the data graph that have subject `x`, predicate `p`, and object `y`, on the condition that `y` is not also reachable from `x` through an `E`-path.
 
-The neighborhood of a node x and a negated disjointness constraint component contains for all nodes y is both reachable from x through an E-path and a p-path:
-The path triples defined by E, start node x and end node y.
-The triple (x, p, y).
+The neighborhood of a node `x` and a negated disjointness constraint component contains for all nodes `y` that are both reachable from `x` through an `E`-path and a `p`-path:
+- The [path triples](#path-triples) defined by `E`, start node `x` and end node `y`.
+- The triple `(x, p, y)`.
 
-For all nodes y, z where these three conditions hold: (i) y is not less than z (resp. y is not less than or equals) z, (ii) y is reachable from z through an E-path and (iii) z is reachable from x through a p-path, the neighborhood of a node x and a negated less than (resp. less than or equal) constraint component contains:
-The path triples defined by E, start node x and end node y.
-The triple (x, p, y).
-Negation of closure
+For all nodes `y`, `z` where these three conditions hold: (i) `y` is not less than `z` (resp. `y` is not less than or equals) `z`, (ii) `y` is reachable from `z` through an `E`-path and (iii) `z` is reachable from `x` through a `p`-path, the neighborhood of a node `x` and a negated less than (resp. less than or equal) constraint component contains:
+- The [path triples](#path-triples) defined by `E`, start node `x` and end node `y`.
+- The triple `(x, p, y)`.
+
+### Negation of closure
 The neighborhood of a node and a negated closed constraint component contains all triples in the data graph that (i) have the given node as subject and (ii) have a predicate that is neither specified in any property shape of the closed shape, nor in the ignored property list.
 #### Example
 

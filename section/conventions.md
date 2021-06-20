@@ -13,7 +13,7 @@ rdf:|http://www.w3.org/1999/02/22-rdf-syntax-ns#
 rdfs:|http://www.w3.org/2000/01/rdf-schema#
 
 
-In the examples in this document color-coded boxes containing RDF graphs in Turtle are used. We use different colors for input graphs, shape graphs and shape graph fragments as follows:
+In the examples in this document color-coded boxes containing RDF graphs in the Turtle syntax [[Turtle]] are used. We use different colors for input graphs, shape graphs and shape graph fragments as follows:
 
 
 

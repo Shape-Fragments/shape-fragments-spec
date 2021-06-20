@@ -1,6 +1,6 @@
 # Terminology
 
-Throughout this document, we will use the following terms to refer to SHACL concepts. We write for readers who are already familiar with RDF concepts.
+Throughout this document, we will use the following terms to refer to SHACL concepts. We write for readers who are already familiar with RDF [[RDF]] concepts.
 
 SHACL assumes a [*data graph*](https://www.w3.org/TR/shacl/#dfn-data-graph)  and a [*shapes graph*](https://www.w3.org/TR/shacl/#dfn-shapes-graph). The data graph contains some information and the shapes graph is used to validate that information.
 
