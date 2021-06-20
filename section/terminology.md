@@ -1,0 +1,9 @@
+# Terminology
+
+Throughout this document, we will use the following terms to refer to SHACL concepts. We write for readers who are already familiar with RDF concepts.
+
+SHACL assumes a [*data graph*](https://www.w3.org/TR/shacl/#dfn-data-graph)  and a [*shapes graph*](https://www.w3.org/TR/shacl/#dfn-shapes-graph). The data graph contains some information and the shapes graph is used to validate that information.
+
+A shapes graph is an RDF graph that contains the definition of one or more [*shapes*](https://www.w3.org/TR/shacl/#dfn-shape). Shapes are defined by [*target declarations*](https://www.w3.org/TR/shacl/#dfn-target-declarations) and [*constraints*](https://www.w3.org/TR/shacl/#dfn-constraint). Target declarations define a set of nodes, the [*targets*](https://www.w3.org/TR/shacl/#dfn-target), in the data graph that must conform to the shape’s constraints. Each constraint in the shapes graph is defined by its [*kind*](https://www.w3.org/TR/shacl/#dfn-kind), i.e., a [*constraint component*](https://www.w3.org/TR/shacl/#dfn-constraint-component), and by its [*parameters*](https://www.w3.org/TR/shacl/#dfn-parameters).
+
+SHACL distinguishes between [*node shapes*](https://www.w3.org/TR/shacl/#node-shapes) and [*property shapes*](https://www.w3.org/TR/shacl/#property-shapes), the difference being that the former do not have [*paths*](https://www.w3.org/TR/shacl/#dfn-shacl-property-path) and therefore place constraints on nodes, while the latter do have paths. Property shapes place constraints on nodes reachable through paths that match a property path expression. The simplest form of a property path expression is a [*predicate path*](https://www.w3.org/TR/shacl/#dfn-predicate-path), more complex forms include [concatenation](https://www.w3.org/TR/shacl/#dfn-sequence-path), [inversion](https://www.w3.org/TR/shacl/#dfn-inverse-path) and [transitive closure](https://www.w3.org/TR/shacl/#dfn-zero-or-more-path) of paths.
