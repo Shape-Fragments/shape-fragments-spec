@@ -68,29 +68,7 @@
     </style>
     <script class="remove">
       var respecConfig = {
-        localBiblio: {
-          "RDF": {
-            title: "RDF 1.1 Concepts and Abstract Syntax",
-            href: "https://www.w3.org/TR/shacl/",
-            status: "W3C Recommendation",
-            publisher: "W3C",
-            date: "20 July 2017",
-          },
-          "SHACL": {
-            title: "Shapes Constraint Language (SHACL)",
-            href: "https://www.w3.org/TR/rdf11-concepts/",
-            status: "W3C Recommendation",
-            publisher: "W3C",
-            date: "25 February 2014",
-          },
-          "Turtle": {
-            title: "RDF 1.1 Turtle",
-            href: "https://www.w3.org/TR/turtle/",
-            status: "W3C Recommendation",
-            publisher: "W3C",
-            date: "25 February 2014",
-          }
-        },
+        xref: ["SHACL"],
         // These may become useful if the document gets a more 'official' status
         // postProcess : [ postProc ],
         doRdfa: "true",
@@ -112,19 +90,40 @@
         // previousPublishDate: "2015-10-15",
         // previousMaturity: "FPWD",
         // if there a publicly available Editor's Draft, this is the link
-        edDraftURI: "redacted",
+        edDraftURI: "https://shape-fragments.github.io/shape-fragments-spec/",
         // if this is a LCWD, uncomment and set the end of its review period
         // lcEnd: "2009-08-05",
         // editors, add as many as you like
         // only "name" is required
         editors: [
           {
-            name: "redacted"
-            , mailto: "redacted"
-            , company: "redacted",
-            orcidid: "redacted",
-            companyURL: "redacted"
-          }
+            name: "Thomas Delva"
+            , mailto: "thomas.delva@ugent.be"
+            , company: "Ghent University &ndash; imec &ndash; IDLab",
+            orcidid: "0000-0001-9521-2185",
+            companyURL: "http://idlab.technology/"
+          },
+          {
+            name: "Maxime Jakubowski"
+            , mailto: "maxime.jakubowski@uhasselt.be"
+            , company: "UHasselt",
+            orcidid: "0000-0002-7420-1337",
+            companyURL: "https://www.uhasselt.be/"
+          },
+          {
+            name: "Jan Van den Bussche"
+            , mailto: "jan.vandenbussche@uhasselt.be"
+            , company: "UHasselt",
+            orcidid: "0000-0003-0072-3252",
+            companyURL: "https://www.uhasselt.be/"
+          },
+          {
+            name: "Anastasia Dimou"
+            , mailto: "anastasia.dimou@ugent.be"
+            , company: "Ghent University &ndash; imec &ndash; IDLab",
+            orcidid: "0000-0003-2138-7972",
+            companyURL: "http://idlab.technology/"
+          },
         ],
         // name of the WG
         //wg: "Digital Publishing Interest Group",
@@ -138,22 +137,22 @@
           {
             key: "This Version",
             data: [{
-              value: "https://example.com/shape-fragments/%thisDate%/",
-              href: "https://example.com/shape-fragments/%thisDate%/"
+              value: "https://shape-fragments.github.io/shape-fragments-spec/%thisDate%/",
+              href: "https://shape-fragments.github.io/shape-fragments-spec/%thisDate%/"
             }]
           },
           {
             key: "Previous Version",
             data: [{
-              value: "https://example.com/shape-fragments/%prevDate%/",
-              href: "https://example.com/shape-fragments/%prevDate%/"
+              value: "https://shape-fragments.github.io/shape-fragments-spec/%prevDate%/",
+              href: "https://shape-fragments.github.io/shape-fragments-spec/%prevDate%/"
             }]
           },
           {
             key: "Website",
             data: [{
-              value: "https://example.com/shape-fragments",
-              href: "https://example.com/shape-fragments"
+              value: "https://github.com/shape-fragments",
+              href: "https://github.com/shape-fragments"
             }]
           }
         ],
@@ -188,6 +187,10 @@
 <section data-include="section/conventions.md" data-include-format="markdown"></section>
 
 <section data-include="section/shape-fragments.md" data-include-format="markdown"></section>
+
+<section data-include="section/neighborhoods.md" data-include-format="markdown"></section>
+
+<section data-include="section/negation.md" data-include-format="markdown"></section>
 
 </body>
 </html>

@@ -44,7 +44,7 @@ if (dirs.length == 0) {
 var html = fs.readFileSync ('./rendered.html', 'utf8');
 html = html.replace (/%thisDate%/g, dateString);
 html = html.replace (/%prevDate%/g, dirs[0]);
-fs.writeFileSync (path.resolve (__dirname, 'dist', 'index.html'), html);
+fs.writeFileSync (path.resolve (__dirname, 'docs', 'index.html'), html);
 html = html.replace (/\.\/resources/g, '../resources');
 fs.writeFileSync (path.resolve(__dirname, 'dist', dateString, 'index.html'), html);
 
