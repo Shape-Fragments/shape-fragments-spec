@@ -1,0 +1,1556 @@
+<!DOCTYPE html><html lang="en" dir="ltr"><head>
+<meta charset="utf-8">
+<meta name="generator" content="ReSpec 28.0.7">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+span.example-title{text-transform:none}
+:is(aside,div).example,div.illegal-example{padding:.5em;margin:1em 0;position:relative;clear:both}
+div.illegal-example{color:red}
+div.illegal-example p{color:#000}
+:is(aside,div).example{border-left-width:.5em;border-left-style:solid;border-color:#e0cb52;background:#fcfaee}
+aside.example div.example{border-left-width:.1em;border-color:#999;background:#fff}
+.example pre{background-color:rgba(0,0,0,.03)}
+</style>
+<style>
+dfn{cursor:pointer}
+.dfn-panel{position:absolute;z-index:35;min-width:300px;max-width:500px;padding:.5em .75em;margin-top:.6em;font:small Helvetica Neue,sans-serif,Droid Sans Fallback;background:#fff;color:#000;box-shadow:0 1em 3em -.4em rgba(0,0,0,.3),0 0 1px 1px rgba(0,0,0,.05);border-radius:2px}
+.dfn-panel:not(.docked)>.caret{position:absolute;top:-9px}
+.dfn-panel:not(.docked)>.caret::after,.dfn-panel:not(.docked)>.caret::before{content:"";position:absolute;border:10px solid transparent;border-top:0;border-bottom:10px solid #fff;top:0}
+.dfn-panel:not(.docked)>.caret::before{border-bottom:9px solid #a2a9b1}
+.dfn-panel *{margin:0}
+.dfn-panel b{display:block;color:#000;margin-top:.25em}
+.dfn-panel ul a[href]{color:#333}
+.dfn-panel>div{display:flex}
+.dfn-panel a.self-link{font-weight:700;margin-right:auto}
+.dfn-panel .marker{padding:.1em;margin-left:.5em;border-radius:.2em;text-align:center;white-space:nowrap;font-size:90%;color:#040b1c}
+.dfn-panel .marker.dfn-exported{background:#d1edfd;box-shadow:0 0 0 .125em #1ca5f940}
+.dfn-panel .marker.idl-block{background:#8ccbf2;box-shadow:0 0 0 .125em #0670b161}
+.dfn-panel a:not(:hover){text-decoration:none!important;border-bottom:none!important}
+.dfn-panel a[href]:hover{border-bottom-width:1px}
+.dfn-panel ul{padding:0}
+.dfn-panel li{margin-left:1em}
+.dfn-panel.docked{position:fixed;left:.5em;top:unset;bottom:2em;margin:0 auto;max-width:calc(100vw - .75em * 2 - .5em - .2em * 2);max-height:30vh;overflow:auto}
+</style>
+    
+<title>Shape Fragments Specification</title>
+    
+    
+<link rel="stylesheet" type="text/css" href="../resources/css/extras.css">
+    
+    
+<style type="text/css">
+
+        pre { 
+            word-wrap:normal
+        }
+        pre.ex-input,
+        pre.ex-shape, 
+        pre.ex-output,
+        pre.ex-target,
+        pre.ex-access {
+            margin-top: 1.5em;
+            padding: 1em; 
+            font-size: 75%;
+        }
+        pre.ex-input:before,
+        pre.ex-shape:before,
+        pre.ex-output:before, 
+        pre.ex-target:before,
+        pre.ex-access:before {
+            background: white;
+            display: block;
+            font-family: sans-serif;
+            font-size: 90%;
+            margin: -1.5em 0 0.5em 0;
+            padding: 0.4em 0.4em;
+            width: 18em;
+        }
+        /* Input R example */
+        pre.ex-input {
+            background: #cee;
+        }
+        pre.ex-input,
+        pre.ex-input:before {
+            border: 1px solid #acc;
+        }
+        pre.ex-input:before {
+            content: "Example data graph";
+        }
+        /* shape example */
+        pre.ex-shape {
+            background: #eeb;
+        }
+        pre.ex-shape,
+        pre.ex-shape:before {
+            border: 1px solid #cc9;
+        }
+        pre.ex-shape:before {
+            content: "Example shapes graph";
+        }
+        /* Output RDF example */
+        pre.ex-output {
+            background: #cfc;
+        }
+        pre.ex-output,
+        pre.ex-output:before {
+            border: 1px solid #aca;
+        }
+        pre.ex-output:before {
+            content: "Example shapes graph fragment";
+        }
+
+    
+</style>
+    
+
+<style id="respec-mainstyle">
+@keyframes pop{
+0%{transform:scale(1,1)}
+25%{transform:scale(1.25,1.25);opacity:.75}
+100%{transform:scale(1,1)}
+}
+.hljs{background:0 0!important}
+:is(h1,h2,h3,h4,h5,h6,a) abbr{border:none}
+dfn{font-weight:700}
+a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}
+a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}
+a.bibref{text-decoration:none}
+.respec-offending-element:target{animation:pop .25s ease-in-out 0s 1}
+.respec-offending-element,a[href].respec-offending-element{text-decoration:red wavy underline}
+@supports not (text-decoration:red wavy underline){
+.respec-offending-element:not(pre){display:inline-block}
+.respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}
+}
+#references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}
+cite .bibref{font-style:normal}
+code{color:#c63501}
+th code{color:inherit}
+a[href].orcid{padding-left:4px;padding-right:4px}
+a[href].orcid>svg{margin-bottom:-2px}
+.toc a,.tof a{text-decoration:none}
+a .figno,a .secno{color:#000}
+ol.tof,ul.tof{list-style:none outside none}
+.caption{margin-top:.5em;font-style:italic}
+table.simple{border-spacing:0;border-collapse:collapse;border-bottom:3px solid #005a9c}
+.simple th{background:#005a9c;color:#fff;padding:3px 5px;text-align:left}
+.simple th a{color:#fff;padding:3px 5px;text-align:left}
+.simple th[scope=row]{background:inherit;color:inherit;border-top:1px solid #ddd}
+.simple td{padding:3px 10px;border-top:1px solid #ddd}
+.simple tr:nth-child(even){background:#f0f6ff}
+.section dd>p:first-child{margin-top:0}
+.section dd>p:last-child{margin-bottom:0}
+.section dd{margin-bottom:1em}
+.section dl.attrs dd,.section dl.eldef dd{margin-bottom:0}
+#issue-summary>ul{column-count:2}
+#issue-summary li{list-style:none;display:inline-block}
+details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}
+details.respec-tests-details>*{padding-right:2em}
+details.respec-tests-details[open]{z-index:999999;position:absolute;border:thin solid #cad3e2;border-radius:.3em;background-color:#fff;padding-bottom:.5em}
+details.respec-tests-details[open]>summary{border-bottom:thin solid #cad3e2;padding-left:1em;margin-bottom:1em;line-height:2em}
+details.respec-tests-details>ul{width:100%;margin-top:-.3em}
+details.respec-tests-details>li{padding-left:1em}
+a[href].self-link:hover{opacity:1;text-decoration:none;background-color:transparent}
+h2,h3,h4,h5,h6{position:relative}
+aside.example .marker>a.self-link{color:inherit}
+:is(h2,h3,h4,h5,h6)>a.self-link{border:none;color:inherit;font-size:83%;height:2em;left:-1.6em;opacity:.5;position:absolute;text-align:center;text-decoration:none;top:0;transition:opacity .2s;width:2em}
+:is(h2,h3,h4,h5,h6)>a.self-link::before{content:"§";display:block}
+@media (max-width:767px){
+dd{margin-left:0}
+:is(h2,h3,h4,h5,h6)>a.self-link{left:auto;top:auto}
+}
+@media print{
+.removeOnSave{display:none}
+}
+</style>
+<meta name="description" content="A shape fragment is the part of an RDF graph that conforms to a SHACL shape. With shape fragments, the SHACL language can be used to define subgraphs of an RDF graph. The current document describes the shape fragments concepts through definitions and examples.">
+<style>
+.hljs{display:block;overflow-x:auto;padding:.5em;color:#383a42;background:#fafafa}
+.hljs-comment,.hljs-quote{color:#717277;font-style:italic}
+.hljs-doctag,.hljs-formula,.hljs-keyword{color:#a626a4}
+.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#ca4706;font-weight:700}
+.hljs-literal{color:#0b76c5}
+.hljs-addition,.hljs-attribute,.hljs-meta-string,.hljs-regexp,.hljs-string{color:#42803c}
+.hljs-built_in,.hljs-class .hljs-title{color:#9a6a01}
+.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#986801}
+.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#336ae3}
+.hljs-emphasis{font-style:italic}
+.hljs-strong{font-weight:700}
+.hljs-link{text-decoration:underline}
+</style>
+<style>
+var{position:relative;cursor:pointer}
+var[data-type]::after,var[data-type]::before{position:absolute;left:50%;top:-6px;opacity:0;transition:opacity .4s;pointer-events:none}
+var[data-type]::before{content:"";transform:translateX(-50%);border-width:4px 6px 0 6px;border-style:solid;border-color:transparent;border-top-color:#000}
+var[data-type]::after{content:attr(data-type);transform:translateX(-50%) translateY(-100%);background:#000;text-align:center;font-family:"Dank Mono","Fira Code",monospace;font-style:normal;padding:6px;border-radius:3px;color:#daca88;text-indent:0;font-weight:400}
+var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
+</style>
+<script id="initialUserConfig" type="application/json">{
+  "xref": [
+    "SHACL"
+  ],
+  "doRdfa": "true",
+  "processVersion": 2021,
+  "specStatus": "unofficial",
+  "shortName": "shape-fragments",
+  "copyrightStart": "2021",
+  "edDraftURI": "https://shape-fragments.github.io/shape-fragments-spec/",
+  "editors": [
+    {
+      "name": "Thomas Delva",
+      "mailto": "thomas.delva@ugent.be",
+      "company": "Ghent University &ndash; imec &ndash; IDLab",
+      "orcidid": "0000-0001-9521-2185",
+      "companyURL": "http://idlab.technology/",
+      "url": "mailto:thomas.delva@ugent.be"
+    },
+    {
+      "name": "Maxime Jakubowski",
+      "mailto": "maxime.jakubowski@uhasselt.be",
+      "company": "UHasselt",
+      "orcidid": "0000-0002-7420-1337",
+      "companyURL": "https://www.uhasselt.be/",
+      "url": "mailto:maxime.jakubowski@uhasselt.be"
+    },
+    {
+      "name": "Jan Van den Bussche",
+      "mailto": "jan.vandenbussche@uhasselt.be",
+      "company": "UHasselt",
+      "orcidid": "0000-0003-0072-3252",
+      "companyURL": "https://www.uhasselt.be/",
+      "url": "mailto:jan.vandenbussche@uhasselt.be"
+    },
+    {
+      "name": "Anastasia Dimou",
+      "mailto": "anastasia.dimou@ugent.be",
+      "company": "Ghent University &ndash; imec &ndash; IDLab",
+      "orcidid": "0000-0003-2138-7972",
+      "companyURL": "http://idlab.technology/",
+      "url": "mailto:anastasia.dimou@ugent.be"
+    }
+  ],
+  "otherLinks": [
+    {
+      "key": "This Version",
+      "data": [
+        {
+          "value": "https://shape-fragments.github.io/shape-fragments-spec/20211213/",
+          "href": "https://shape-fragments.github.io/shape-fragments-spec/20211213/"
+        }
+      ]
+    },
+    {
+      "key": "Previous Version",
+      "data": [
+        {
+          "value": "https://shape-fragments.github.io/shape-fragments-spec/20211213/",
+          "href": "https://shape-fragments.github.io/shape-fragments-spec/20211213/"
+        }
+      ]
+    },
+    {
+      "key": "Website",
+      "data": [
+        {
+          "value": "https://github.com/shape-fragments",
+          "href": "https://github.com/shape-fragments"
+        }
+      ]
+    }
+  ],
+  "publishISODate": "2021-12-13T00:00:00.000Z",
+  "generatedSubtitle": "Unofficial Draft 13 December 2021"
+}</script>
+<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD"></head>
+<body class="h-entry" data-cite="SHACL"><div class="head">
+     <h1 id="title" class="title">Shape Fragments Specification</h1>
+    
+    <p id="w3c-state">Unofficial Draft <time class="dt-published" datetime="2021-12-13">13 December 2021</time></p>
+    <details open="">
+      <summary>More details about this document</summary>
+      <dl>
+        
+        <dt>Latest editor's draft:</dt><dd><a href="https://shape-fragments.github.io/shape-fragments-spec/">https://shape-fragments.github.io/shape-fragments-spec/</a></dd>
+        
+        
+        
+        
+        
+        
+        <dt>Editors:</dt>
+        <dd class="editor p-author h-card vcard">
+    <a class="ed_mailto u-email email p-name" href="mailto:thomas.delva@ugent.be">Thomas Delva</a> (<a class="p-org org h-org" href="http://idlab.technology/">Ghent University – imec – IDLab</a>)
+  </dd><dd class="editor p-author h-card vcard">
+    <a class="ed_mailto u-email email p-name" href="mailto:maxime.jakubowski@uhasselt.be">Maxime Jakubowski</a> (<a class="p-org org h-org" href="https://www.uhasselt.be/">UHasselt</a>)
+  </dd><dd class="editor p-author h-card vcard">
+    <a class="ed_mailto u-email email p-name" href="mailto:jan.vandenbussche@uhasselt.be">Jan Van den Bussche</a> (<a class="p-org org h-org" href="https://www.uhasselt.be/">UHasselt</a>)
+  </dd><dd class="editor p-author h-card vcard">
+    <a class="ed_mailto u-email email p-name" href="mailto:anastasia.dimou@ugent.be">Anastasia Dimou</a> (<a class="p-org org h-org" href="http://idlab.technology/">Ghent University – imec – IDLab</a>)
+  </dd>
+        
+        
+        
+        
+        <dt>This Version</dt><dd>
+    <a href="https://shape-fragments.github.io/shape-fragments-spec/20211213/">https://shape-fragments.github.io/shape-fragments-spec/20211213/</a>
+  </dd><dt>Previous Version</dt><dd>
+    <a href="https://shape-fragments.github.io/shape-fragments-spec/20211213/">https://shape-fragments.github.io/shape-fragments-spec/20211213/</a>
+  </dd><dt>Website</dt><dd>
+    <a href="https://github.com/shape-fragments">https://github.com/shape-fragments</a>
+  </dd>
+      </dl>
+    </details>
+    
+    
+    <p class="copyright">
+      Copyright ©
+      2021
+      the document editors/authors.
+      Text is available under the
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/legalcode">Creative Commons Attribution 4.0 International Public License</a>; additional terms may apply.
+    </p>
+    <hr title="Separator for header">
+  </div>
+<section id="abstract" class="introductory"><h2 id="abstract">Abstract<a class="self-link" href="#abstract" aria-label="Permalink for Section"></a></h2><p>A shape fragment is the part of an RDF graph that conforms to a SHACL shape. With shape fragments, the SHACL language can be used to define subgraphs of an RDF graph. The current document describes the shape fragments concepts through definitions and examples.</p><p>The version of this document is v0.0.0.</p></section>
+
+<section id="sotd" class="introductory"><h2 id="status-of-this-document">Status of This Document<a class="self-link" href="#sotd" aria-label="Permalink for Section"></a></h2><p>
+      This document is a draft of a potential specification. It has no official
+      standing of any kind and does not represent the support or consensus of
+      any standards organization.
+    </p>
+    <p data-format="markdown"><p>This is an early draft,
+yet efforts are made to keep things stable.</p></p>
+</section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#terminology"><bdi class="secno">2. </bdi>Terminology</a></li><li class="tocline"><a class="tocxref" href="#conformance"><bdi class="secno">3. </bdi>Conformance</a></li><li class="tocline"><a class="tocxref" href="#conventions"><bdi class="secno">4. </bdi>Document conventions</a></li><li class="tocline"><a class="tocxref" href="#shape-fragments"><bdi class="secno">5. </bdi>Extracting subgraphs with shapes</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#shape-neighborhoods"><bdi class="secno">5.1 </bdi>Shape neighborhoods</a></li><li class="tocline"><a class="tocxref" href="#target-triples"><bdi class="secno">5.2 </bdi>Target triples</a></li><li class="tocline"><a class="tocxref" href="#path-triples"><bdi class="secno">5.3 </bdi>Path triples</a></li></ol></li><li class="tocline"><a class="tocxref" href="#constraint-neighborhoods"><bdi class="secno">6. </bdi>Constraint neighborhoods</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#value-type-constraint-components"><bdi class="secno">6.1 </bdi>Value type constraint components</a></li><li class="tocline"><a class="tocxref" href="#cardinality-constraint-components"><bdi class="secno">6.2 </bdi>Cardinality constraint components</a></li><li class="tocline"><a class="tocxref" href="#value-range-constraint-components"><bdi class="secno">6.3 </bdi>Value range constraint components</a></li><li class="tocline"><a class="tocxref" href="#string-based-constraint-components"><bdi class="secno">6.4 </bdi>String-based constraint components</a></li><li class="tocline"><a class="tocxref" href="#property-pair-constraint-components"><bdi class="secno">6.5 </bdi>Property pair constraint components</a></li><li class="tocline"><a class="tocxref" href="#logical-constraint-components-excluding-negation"><bdi class="secno">6.6 </bdi>Logical constraint components (excluding negation)</a></li><li class="tocline"><a class="tocxref" href="#shape-based-constraint-components"><bdi class="secno">6.7 </bdi>Shape-based constraint components</a></li><li class="tocline"><a class="tocxref" href="#other-constraints"><bdi class="secno">6.8 </bdi>Other constraints</a></li></ol></li><li class="tocline"><a class="tocxref" href="#negation"><bdi class="secno">7. </bdi>Negation</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#negation-of-cardinality-constraints"><bdi class="secno">7.1 </bdi>Negation of cardinality constraints</a></li><li class="tocline"><a class="tocxref" href="#negation-of-shape-based-constraints"><bdi class="secno">7.2 </bdi>Negation of shape-based constraints</a></li><li class="tocline"><a class="tocxref" href="#negation-of-logical-constraints"><bdi class="secno">7.3 </bdi>Negation of logical constraints</a></li><li class="tocline"><a class="tocxref" href="#negation-of-property-pair-constraints"><bdi class="secno">7.4 </bdi>Negation of property pair constraints</a></li><li class="tocline"><a class="tocxref" href="#negation-of-closure"><bdi class="secno">7.5 </bdi>Negation of closure</a></li></ol></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">A. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">A.1 </bdi>Normative references</a></li></ol></li></ol></nav>
+
+<section id="introduction-0"><h2 id="introduction"><bdi class="secno">1. </bdi>Introduction<a class="self-link" href="#introduction" aria-label="Permalink for Section 1."></a></h2><p>This document interprets SHACL [<cite><a class="bibref" data-link-type="biblio" href="#bib-shacl" title="Shapes Constraint Language (SHACL)">SHACL</a></cite>] as a subgraph extraction language. We call the extracted subgraphs <em>shape fragments</em>. Shape fragments are defined using <em>neighborhoods</em>. A neighborhood of a node for a shape is the part of a data graph that shows the node conforms to a shape. Neighborhoods are defined differently for different kinds of constraints; in the remainder of this document exact definitions for neighborhoods for each constraint type in SHACL core.</p></section>
+
+<section id="terminology"><h2 id="x2-terminology"><bdi class="secno">2. </bdi>Terminology<a class="self-link" href="#terminology" aria-label="Permalink for Section 2."></a></h2><p>Throughout this document, terms are used that were defined in the SHACL specification [<cite><a class="bibref" data-link-type="biblio" href="#bib-shacl" title="Shapes Constraint Language (SHACL)">SHACL</a></cite>]. For those SHACL terms that are used often, we restate their definitions in this section. This document is wriiten for readers who are already familiar with RDF [<cite><a class="bibref" data-link-type="biblio" href="#bib-rdf-concepts" title="Resource Description Framework (RDF): Concepts and Abstract Syntax">RDF-concepts</a></cite>].</p><p>SHACL assumes a <dfn id="dfn-data-graph" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">data graph</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-data-graph">SHACL: <em>data graph</em></a>) and a <dfn id="dfn-shapes-graph" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">shapes graph</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-shapes-graph">SHACL: <em>shapes graph</em></a>). The data graph contains some information and the shapes graph is used to validate that information.</p><p>A shapes graph is an RDF graph that contains the definition of one or more <dfn id="dfn-shapes" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">shapes</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-shape">SHACL: <em>shape</em></a>). Shapes are defined by <dfn id="dfn-target-declarations" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">target declarations</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-target-declarations">SHACL: <em>target declaration</em></a>) and <dfn id="dfn-constraints" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">constraints</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-constraint">SHACL: <em>constraint</em></a>). Target declarations define a set of nodes, the <dfn id="dfn-target" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">target</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-target">SHACL: <em>target</em></a>), in the data graph that must conform to the shape’s constraints. Each constraint in the shapes graph is defined by its <dfn data-plurals="kinds" id="dfn-kind" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">kind</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-kind">SHACL: <em>kind</em></a>), i.e., a <dfn id="dfn-constraint-component" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">constraint component</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-constraint-component">SHACL: <em>constraint component</em></a>), and by its <dfn id="dfn-prameters" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">prameters</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-parameters">SHACL: <em>parameter</em></a>). Depending on the kind and parameters of a constraint, nodes will be tested against different conditions, for example: checking whether strings or URIs match a regular expression, checking whether a node  has a minimum cardinality for certain properties, and many more. </p><p>SHACL distinguishes between <dfn data-plurals="node shapes" id="dfn-node-shape" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">node shape</dfn> (<a href="https://www.w3.org/TR/shacl/#node-shapes">SHACL: <em>node shape</em></a>) and <dfn data-plurals="property shape" id="dfn-property-shapes" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">property shapes</dfn> (<a href="https://www.w3.org/TR/shacl/#property-shapes">SHACL: <em>property shape</em></a>), the difference being that the former do not have <dfn data-plurals="property path" id="dfn-property-paths" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">property paths</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-shacl-property-path">SHACL: <em>property path</em></a>) and therefore place constraints on nodes, while the latter do have paths. Property shapes place constraints on nodes reachable through paths that match a property path expression. The simplest form of a property path expression is a <dfn id="dfn-predicate-path" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">predicate path</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-predicate-path">SHACL: <em>predicate path</em></a>), more complex forms include <dfn id="dfn-concatenation" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">concatenation</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-sequence-path">SHACL: <em>concatenation</em></a>), <dfn id="dfn-inversion" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">inversion</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-inverse-path">SHACL: <em>inversion</em></a>) and <dfn id="dfn-transitive-closure" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">transitive closure</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-zero-or-more-path">SHACL: transitive closure</a>) of <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-1">property paths</a>.</p><p>SHACL distinguishes between <a data-link-type="dfn" href="#dfn-focus-nodes" class="internalDFN" id="ref-for-dfn-focus-nodes-1">focus nodes</a> and <a data-link-type="dfn" href="#dfn-value-nodes" class="internalDFN" id="ref-for-dfn-value-nodes-1">value nodes</a>.
+<dfn data-plurals="focus node" id="dfn-focus-nodes" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Focus nodes</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-focus-node">SHACL: <em>focus node</em></a>) are the nodes that are being validated by a shape.
+During validation of a focus node, the concept of <a data-link-type="dfn" href="#dfn-value-nodes" class="internalDFN" id="ref-for-dfn-value-nodes-2">value nodes</a> is used.
+The set of <dfn data-plurals="value node" id="dfn-value-nodes" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">value nodes</dfn> (<a href="https://www.w3.org/TR/shacl/#dfn-value-nodes">SHACL: <em>value nodes</em></a>) is defined the nodes reachable from the focus node through a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-2">property path</a> (if the shape is a <a data-link-type="dfn" href="#dfn-property-shapes" class="internalDFN" id="ref-for-dfn-property-shapes-1">property shape</a>) and as the focus node itself if the shape has no property path (i.e., for <a data-link-type="dfn" href="#dfn-node-shape" class="internalDFN" id="ref-for-dfn-node-shape-1">node shapes</a>).</p></section>
+
+<section id="conformance"><h2 id="x3-conformance"><bdi class="secno">3. </bdi>Conformance<a class="self-link" href="#conformance" aria-label="Permalink for Section 3."></a></h2><p>As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.</p></section>
+
+<section id="document-conventions"><h2 id="conventions"><bdi class="secno">4. </bdi>Document conventions<a class="self-link" href="#conventions" aria-label="Permalink for Section 4."></a></h2><p><em>This section is non-normative.</em></p><p>In this document, examples assume the following namespace prefix bindings unless otherwise stated:</p><table>
+<thead>
+<tr>
+<th>Prefix</th>
+<th>Namespace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sh:</td>
+<td><a href="http://www.w3.org/ns/shacl#">http://www.w3.org/ns/shacl#</a></td>
+</tr>
+<tr>
+<td>xsd:</td>
+<td><a href="http://www.w3.org/2001/XMLSchema#">http://www.w3.org/2001/XMLSchema#</a></td>
+</tr>
+<tr>
+<td>:</td>
+<td><a href="http://example.com/ns#">http://example.com/ns#</a></td>
+</tr>
+<tr>
+<td>rdf:</td>
+<td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">http://www.w3.org/1999/02/22-rdf-syntax-ns#</a></td>
+</tr>
+<tr>
+<td>rdfs:</td>
+<td><a href="http://www.w3.org/2000/01/rdf-schema#">http://www.w3.org/2000/01/rdf-schema#</a></td>
+</tr>
+</tbody></table><p>In the examples in this document color-coded boxes containing RDF graphs in the Turtle syntax [<cite><a class="bibref" data-link-type="biblio" href="#bib-turtle" title="RDF 1.1 Turtle">Turtle</a></cite>] are used. We use different colors for input graphs, shape graphs and shape graph fragments as follows:</p><pre class="ex-input" aria-busy="false"><code class="hljs"># This box contains an example data graph</code></pre><pre class="ex-shape" aria-busy="false"><code class="hljs"># This box contains an example shapes graph</code></pre><pre class="ex-output" aria-busy="false"><code class="hljs"># This box contains an example shapes graph fragment</code></pre></section>
+
+<section id="extracting-subgraphs-with-shapes"><h2 id="shape-fragments"><bdi class="secno">5. </bdi>Extracting subgraphs with shapes<a class="self-link" href="#shape-fragments" aria-label="Permalink for Section 5."></a></h2><p>A <dfn id="dfn-shapes-graph-fragment" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">shapes graph fragment</dfn> is a subgraph derived from a data graph for a given shapes graph. A shapes graph fragment is the union of the <a data-link-type="dfn" href="#dfn-shape-fragment" class="internalDFN" id="ref-for-dfn-shape-fragment-1">shape fragments</a> of the individual shapes in the shapes graph. For each shape in the shapes graph, that shape's <dfn data-plurals="shape fragments" id="dfn-shape-fragment" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">shape fragment</dfn> contains the <a data-link-type="dfn" data-lt="neighborhood-shape" href="#dfn-neighborhood-shape" class="internalDFN" id="ref-for-dfn-neighborhood-shape-1">neighborhood for that shape</a> of each focus node in the shape's <a data-link-type="dfn" href="#dfn-target" class="internalDFN" id="ref-for-dfn-target-1">target</a>.</p><figure id="fig-subgraph-extraction-with-shape-fragments-returns-the-validated-subgraph-of-a-graph-instead-of-a-validation-report">
+  <img src="../resources/images/extraction-validation.png" alt="Diagram showing that Shape Fragments outputs a subgraph based on the input data and shapes graph." height="271" width="565">
+  <figcaption>Figure <bdi class="figno">1</bdi> <span class="fig-title">Subgraph extraction with shape fragments returns the validated subgraph of a graph instead of a validation report.</span></figcaption>
+</figure><section id="shape-neighborhoods"><h3 id="x5-1-shape-neighborhoods"><bdi class="secno">5.1 </bdi>Shape neighborhoods<a class="self-link" href="#shape-neighborhoods" aria-label="Permalink for Section 5.1"></a></h3><p>The <dfn data-lt="neighborhood-shape|neighborhood of a focus node for a shape" id="dfn-neighborhood-shape" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a shape</dfn> is a subgraph of the data graph. If a focus node does not conform to a shape, the neighborhood of that node for that shape is defined as being empty. If a focus node <em>does</em> conform to a shape, the neighborhood of that focus node for that shape is defined as containing exactly:</p><ul>
+<li>The triples of the data graph that make the focus node part of the shape's target: the <a data-link-type="dfn" href="#dfn-target-triples" class="internalDFN" id="ref-for-dfn-target-triples-1">target triples</a>. (This is empty if the focus node is not part of the shape's target.)</li>
+<li>The triples of the data graph that make the focus node satisfy the shape's <a data-link-type="dfn" href="#dfn-constraints" class="internalDFN" id="ref-for-dfn-constraints-1">constraints</a>: for each of the shape's constraints, the <a data-link-type="dfn" data-lt="neighborhood-constraint" href="#dfn-neighborhood-constraint" class="internalDFN" id="ref-for-dfn-neighborhood-constraint-1">neighborhood of the focus node for the constraint</a>.</li>
+</ul></section><section id="target-triples"><h3 id="x5-2-target-triples"><bdi class="secno">5.2 </bdi>Target triples<a class="self-link" href="#target-triples" aria-label="Permalink for Section 5.2"></a></h3><p>The <dfn id="dfn-target-triples" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">target triples</dfn> of a focus node for a shape intuitively are those triples in the data graph that make the focus node part of the <a data-link-type="dfn" href="#dfn-target" class="internalDFN" id="ref-for-dfn-target-2">target</a> of that shape. 
+The target triples of a focus node for a shape are defined as the union of the target triples for that focus node and each of the shape's <a data-link-type="dfn" href="#dfn-target-declarations" class="internalDFN" id="ref-for-dfn-target-declarations-1">target declarations</a>: </p><ul>
+<li>The target triples of a focus node for a <code>sh:targetClass</code> target declaration are the triples in the data graph that declare the node has the specified class. These are the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-1">path triples</a> between the focus node and the target class node for property path <code>rdf:type/rdfs:subClassOf*</code>. (See <a href="#ex-targetClass" class="box-ref">Example<bdi> 1</bdi></a>.) This definition is (intentionally) similar to the definition of <a data-link-type="dfn" data-lt="neighborhood-class" href="#dfn-neighborhood-class" class="internalDFN" id="ref-for-dfn-neighborhood-class-1">the neighborhood of a class constraint</a>. </li>
+<li>The target triples of a focus node for a <code>sh:targetSubjectsOf</code> target declaration are the triples in the data graph with as subject the node and as predicate the specified predicate. (See <a href="#ex-targetSubjectsOf" class="box-ref">Example<bdi> 2</bdi></a>.)</li>
+<li>The target triples of a focus node for a <code>sh:targetObjectsOf</code> target declaration are the triples in the data graph with as object the node and as predicate the specified predicate.</li>
+<li>The target triples of a focus node for a <code>sh:targetNode</code> target declaration is empty.</li>
+</ul><p>If a node is not in the <a data-link-type="dfn" href="#dfn-target" class="internalDFN" id="ref-for-dfn-target-3">target</a> of a shape, there are no target triples of that focus node for that shape. </p><aside class="example" id="ex-targetClass"><div class="marker">
+    <a class="self-link" href="#ex-targetClass">Example<bdi> 1</bdi></a><span class="example-title">: Example with target class</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice   a :Person .
+:Bob     a :Teacher .
+:Teacher rdfs:subclassOf :Person .
+:NewYork a :City .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:PersonShape a sh:NodeShape ;
+  sh:targetClass :Person .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Alice   a :Person .
+:Bob     a :Teacher .
+:Teacher rdfs:subclassOf :Person .</code></pre>
+</aside><aside class="example" id="ex-targetSubjectsOf"><div class="marker">
+    <a class="self-link" href="#ex-targetSubjectsOf">Example<bdi> 2</bdi></a><span class="example-title">: Example with subjects-of target</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice :knows   :Bob .
+:Bob   :livesIn :NewYork .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:TSOExampleShape a sh:NodeShape ;
+  sh:targetSubjectsOf :knows .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Alice :knows :Bob .</code></pre>
+</aside></section><section id="path-triples"><h3 id="x5-3-path-triples"><bdi class="secno">5.3 </bdi>Path triples<a class="self-link" href="#path-triples" aria-label="Permalink for Section 5.3"></a></h3><p>Throughout this document, the term <dfn id="dfn-path-triples" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">path triples</dfn> will be used to refer to triples in the data graph that lay on a path. Path triples are defined by a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-3">property path</a>, a start node, and an end node. The path triples between a start and end node for a property path are exactly those triples in the data graph on paths that (i) start in the start node, (ii) match the property path and (iii) end in the end node.</p><aside class="example" id="ex-simplePath"><div class="marker">
+    <a class="self-link" href="#ex-simplePath">Example<bdi> 3</bdi></a><span class="example-title">: Simple path example</span>
+  </div>
+The first triple, <code>:Alice :name "Alice"</code>, in the input lays on a path that (i) starts in focus node <code>:Alice</code>, (ii) ends in value node <code>"Alice"</code> and (iii) matches the simple property path <code>:name</code>. Therefore the triple <code>:Alice :name "Alice"</code> is present in the shape fragment for <code>:PersonShape</code>.
+The second triple in the input is part of the path triples between focus node <code>:Bob</code> and value node <code>:bobsName</code>, but is not part of the shape fragment for <code>:PersonShape</code> because the value node does not satisfy the shape's constraints: it is not a literal. 
+The third triple in the input is not part of the path triples between <code>:Carol</code> and <code>"Carol"</code>, since its predicate, <code>:hasName</code> does not match the shape's property path, <code>:name</code>.
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice :name    "Alice" .
+:Bob   :name    :bobsName .
+:Carol :hasName "Carol" .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:PersonShape a sh:PropertyShape ;
+  sh:targetNode :Alice, :Bob, :Carol ;
+  sh:path       :name ;
+  sh:nodeKind   sh:Literal .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Alice :name "Alice" .</code></pre>
+</aside><aside class="example" id="ex-kleenePath"><div class="marker">
+    <a class="self-link" href="#ex-kleenePath">Example<bdi> 4</bdi></a>
+  </div>
+Following example shape will extract a fragment containing the friends of <code>:Alice</code> and <code>:Xander</code>, as well as friends-of-friends, friends-of-friends-of-friends, and so on.
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice  :friend :Bob .
+:Bob    :friend :Carol . 
+:Xander :likes  :Yolanda .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:PersonShape a sh:PropertyShape ;
+  sh:targetNode :Alice, :Xander .
+  sh:path       [ sh:zeroOrMorePath :friend ] ;
+  sh:minCount   1 .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Alice :friend :Bob .
+:Bob   :friend :Carol .</code></pre>
+</aside></section></section>
+
+<section id="constraint-neighborhoods"><h2 id="x6-constraint-neighborhoods"><bdi class="secno">6. </bdi>Constraint neighborhoods<a class="self-link" href="#constraint-neighborhoods" aria-label="Permalink for Section 6."></a></h2><p>The <dfn data-lt="neighborhood-constraint|neighborhood of a focus node for a constraint" id="dfn-neighborhood-constraint" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a constraint</dfn> are those triples from the <a data-link-type="dfn" href="#dfn-data-graph" class="internalDFN" id="ref-for-dfn-data-graph-1">data graph</a> that show that the focus node satisfies the constraint. Which triples are contained in such a neighborhood depends on the <a data-link-type="dfn" href="#dfn-kind" class="internalDFN" id="ref-for-dfn-kind-1">kind</a> of the constraint. In the remainder of this section, we give definitions of neighborhoods for the different constraint kinds in <a href="https://www.w3.org/TR/shacl/#core-components">SHACL core</a>.</p><section id="value-type-constraint-components"><h3 id="x6-1-value-type-constraint-components"><bdi class="secno">6.1 </bdi>Value type constraint components<a class="self-link" href="#value-type-constraint-components" aria-label="Permalink for Section 6.1"></a></h3><p><em>Subsection about neighborhoods for constraints of kinds: <code>sh:ClassConstraintComponent</code>, <code>sh:DatatypeConstraintComponent</code>, <code>sh:NodeKindConstraintComponent</code></em></p><p>The <dfn data-lt="neighborhood-value-type|neighborhood of a focus node for a value type constraint" id="dfn-neighborhood-value-type" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a value type constraint</dfn> contains the triples from the data graph that make the focus node satisfy the constraint. For a value type constraint that is part of a <a data-link-type="dfn" href="#dfn-property-shapes" class="internalDFN" id="ref-for-dfn-property-shapes-2">property shape</a>, i.e., a shape with a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-4">property path</a>, the neighborhood of a focus node <code>x</code> contains, for each of the shape's <a data-link-type="dfn" href="#dfn-value-nodes" class="internalDFN" id="ref-for-dfn-value-nodes-3">value nodes</a> <code>y</code>, the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-2">path triples</a> between <code>x</code> and <code>y</code> for the shape's property path. </p><p>Additionaly, the <dfn data-lt="neighborhood-class|neighborhood of a focus node for a class constraint" id="dfn-neighborhood-class" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a class constraint</dfn> (<code>sh:ClassConstraintComponent</code>) contains, for each <a data-link-type="dfn" href="#dfn-value-nodes" class="internalDFN" id="ref-for-dfn-value-nodes-4">value node</a> <code>y</code>, those triples in the <a data-link-type="dfn" href="#dfn-data-graph" class="internalDFN" id="ref-for-dfn-data-graph-2">data graph</a> that declare the <code>y</code> has class the required class <code>c</code>. These are the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-3">path triples</a> between the <code>y</code> and <code>c</code> for property path <code>rdf:type/rdfs:subClassOf*</code>.</p><aside id="ex-class" class="example"><div class="marker">
+    <a class="self-link" href="#ex-class">Example<bdi> 5</bdi></a><span class="example-title">: Example with a class constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice a :Person .
+:Bob :address [ 
+  a :PostalAddress ; 
+  :city :Berlin ] .
+:Carol :address [ 
+  :city :Cairo ] .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:ClassExampleShape a sh:NodeShape ;
+  sh:targetNode :Bob, :Alice, :Carol ;
+  sh:property [
+    sh:path  :address ;
+    sh:class :PostalAddress ; ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Bob :address [ a :PostalAddress ] .</code></pre>
+</aside><aside id="ex-datatype" class="example"><div class="marker">
+    <a class="self-link" href="#ex-datatype">Example<bdi> 6</bdi></a><span class="example-title">: Example with a datatype constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice :age "23"^^xsd:integer .
+:Bob   :age "twenty two" .
+:Carol :age "23"^^xsd:int .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:DatatypeExampleShape a sh:NodeShape ;
+  sh:targetNode :Alice, :Bob, :Carol ;
+  sh:property [
+    sh:path :age ;
+    sh:datatype xsd:integer ; ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Alice :age "23"^^xsd:integer .</code></pre>
+</aside><aside id="ex-nodeKind" class="example"><div class="marker">
+    <a class="self-link" href="#ex-nodeKind">Example<bdi> 7</bdi></a><span class="example-title">: Example with a node kind constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Bob :knows :Alice .
+:Alice :knows "Bob" .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:NodeKindExampleShape a sh:NodeShape ;
+  sh:targetObjectsOf :knows ;
+  sh:nodeKind sh:IRI .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Bob :knows :Alice .</code></pre>
+</aside></section><section id="cardinality-constraint-components"><h3 id="x6-2-cardinality-constraint-components"><bdi class="secno">6.2 </bdi>Cardinality constraint components<a class="self-link" href="#cardinality-constraint-components" aria-label="Permalink for Section 6.2"></a></h3><p><em>Subsection about neighborhoods for constraints of kinds: <code>sh:MinCountConstraintComponent</code>, <code>sh:MaxCountConstraintComponent</code></em></p><p>The <dfn data-lt="neighborhood-cardinality|neighborhood of a focus node for a cardinality constraint" id="dfn-neighborhood-cardinality" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a cardinality constraint</dfn> contains those triples that show that the focus node has the required amount of value nodes. For a cardinality constraint that is part of a <a data-link-type="dfn" href="#dfn-property-shapes" class="internalDFN" id="ref-for-dfn-property-shapes-3">property shape</a>, i.e., a shape with a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-5">property path</a>, the neighborhood of a focus node <code>x</code> contains the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-4">path triples</a> between <code>x</code> and <code>y</code> for the property path for all value nodes <code>y</code>.</p><aside id="ex-minCount" class="example"><div class="marker">
+    <a class="self-link" href="#ex-minCount">Example<bdi> 8</bdi></a><span class="example-title">: Example with a minimum count constraint</span>
+  </div>
+Example with <code>sh:minCount</code>:
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice :name "Alice" .
+:Bob :givenName "Bob"@en .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:minCountExampleShape a sh:PropertyShape ;
+  sh:targetNode :Alice, :Bob ;
+  sh:path :name ;
+  sh:minCount 1 .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Alice :name "Alice" .</code></pre>
+</aside></section><section id="value-range-constraint-components"><h3 id="x6-3-value-range-constraint-components"><bdi class="secno">6.3 </bdi>Value range constraint components<a class="self-link" href="#value-range-constraint-components" aria-label="Permalink for Section 6.3"></a></h3><p><em>Subsection about neighborhoods for constraints of kinds: <code>sh:MinExclusiveConstraintComponent</code>, <code>sh:MinInclusiveConstraintComponent</code>, <code>sh:MaxExclusiveConstraintComponent</code>, <code>sh:MaxInclusiveConstraintComponent</code></em></p><p>The <dfn data-lt="neighborhood-value-range|neighborhood of a focus node for a value range constraint" id="dfn-neighborhood-value-range" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a value range constraint</dfn> contains those triples that show that the focus node's value nodes lie in the required range. For a value range constraint that is part of a <a data-link-type="dfn" href="#dfn-property-shapes" class="internalDFN" id="ref-for-dfn-property-shapes-4">property shape</a>, i.e., a shape with a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-6">property path</a>, the neighborhood of a focus node <code>x</code> includes the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-5">path triples</a> between <code>x</code> and <code>y</code> for the property path for all value nodes <code>y</code>.</p><aside id="ex-minInclusive" class="example"><div class="marker">
+    <a class="self-link" href="#ex-minInclusive">Example<bdi> 9</bdi></a><span class="example-title">: Example with a minimum and maximum value constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Bob   :age 23 .
+:Alice :age 220 .
+:Ted   :age "twenty one" .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:NumericRangeExampleShape a sh:NodeShape ;
+  sh:targetNode :Bob, :Alice, :Ted ;
+  sh:property [
+    sh:path :age ;
+    sh:minInclusive 0 ;
+    sh:maxInclusive 150 ; ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Bob :age 23 .</code></pre>
+</aside></section><section id="string-based-constraint-components"><h3 id="x6-4-string-based-constraint-components"><bdi class="secno">6.4 </bdi>String-based constraint components<a class="self-link" href="#string-based-constraint-components" aria-label="Permalink for Section 6.4"></a></h3><p><em>Subsection about neighborhoods for constraints of kinds: <code>sh:MinLengthConstraintComponent</code>, <code>sh:MaxLengthConstraintComponent</code>, <code>sh:PatternConstraintComponent</code>, <code>sh:LanguageInConstraintComponent</code>, <code>sh:UniqueLangConstraintComponent</code></em></p><p>The <dfn data-lt="neighborhood-string-based|neighborhood of a focus node for a string-based constraint" id="dfn-neighborhood-string-based" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a string-based constraint</dfn> contains those triples that show that the focus node's value nodes match the required string values. For a string-based constraint that is part of a <a data-link-type="dfn" href="#dfn-property-shapes" class="internalDFN" id="ref-for-dfn-property-shapes-5">property shape</a>, i.e., a shape with a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-7">property path</a>, the neighborhood of a focus node <code>x</code> includes the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-6">path triples</a> between <code>x</code> and <code>y</code> for the property path for all value nodes <code>y</code>.</p><aside id="ex-minLength" class="example"><div class="marker">
+    <a class="self-link" href="#ex-minLength">Example<bdi> 10</bdi></a><span class="example-title">: Example with a minimum and maximum string length constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice :password "1234567890ABC" .
+:Bob   :password "123456789" .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:PasswordExampleShape a sh:NodeShape ;
+  sh:targetNode :Alice, :Bob ;
+  sh:property [
+    sh:path :password ;
+    sh:minLength 8 ;
+    sh:maxLength 10 ; ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Bob :password "123456789" .</code></pre>
+</aside><aside id="ex-pattern" class="example"><div class="marker">
+    <a class="self-link" href="#ex-pattern">Example<bdi> 11</bdi></a><span class="example-title">: Example with a pattern constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice :bCode "B102" .
+:Bob   :bCode "b101" .
+:Carol :bCode "C103" .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:PatternExampleShape
+  a sh:NodeShape ;
+  sh:targetNode :Bob, :Alice, :Carol ;
+  sh:property [
+    sh:path :bCode ;
+    sh:pattern "^B" ;    # starts with 'B'
+    sh:flags "i" ;       # Ignore case
+  ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Alice :bCode "B102" .
+:Bob   :bCode "b101" .</code></pre>
+</aside><aside id="ex-languageIn" class="example"><div class="marker">
+    <a class="self-link" href="#ex-languageIn">Example<bdi> 12</bdi></a><span class="example-title">: Example with a language tag constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Mountain
+  :prefLabel "Mountain"@en ;
+  :prefLabel "Hill"@en-NZ ;
+  :prefLabel "Maunga"@mi .
+:Berg
+  :prefLabel "Berg" ;
+  :prefLabel "Berg"@de ;
+  :prefLabel :BergLabel .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:NewZealandLanguagesShape a sh:NodeShape ;
+  sh:targetNode :Mountain, :Berg ;
+  sh:property [
+    sh:path :prefLabel ;
+    sh:languageIn ( "en" "mi" ) ; ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Mountain
+  :prefLabel "Mountain"@en ;
+  :prefLabel "Hill"@en-NZ ;
+  :prefLabel "Maunga"@mi .</code></pre>
+</aside><aside id="ex-uniqueLang" class="example"><div class="marker">
+    <a class="self-link" href="#ex-uniqueLang">Example<bdi> 13</bdi></a><span class="example-title">: Example with a unique language constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice
+  :label "Alice" ;
+  :label "Alice"@en ;
+  :label "Alice"@fr .
+:Bob
+  :label "Bob"@en ;
+  :label "Bobby"@en .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:UniqueLangExampleShape a sh:NodeShape ;
+  sh:targetNode :Alice, :Bob ;
+  sh:property [
+    sh:path :label ;
+    sh:uniqueLang true ; ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Alice
+  :label "Alice" ;
+  :label "Alice"@en ;
+  :label "Alice"@fr ."</code></pre>
+</aside></section><section id="property-pair-constraint-components"><h3 id="x6-5-property-pair-constraint-components"><bdi class="secno">6.5 </bdi>Property pair constraint components<a class="self-link" href="#property-pair-constraint-components" aria-label="Permalink for Section 6.5"></a></h3><p><em>Subsection about neighborhoods for constraints of kinds: <code>sh:EqualsConstraintComponent</code>, <code>sh:DisjointConstraintComponent</code>, <code>sh:LessThanConstraintComponent</code>, <code>sh:LessThanOrEqualsConstraintComponent</code></em></p><p>Except constraints of kind equals, the <dfn data-lt="neighborhood-property-pair|neighborhood of a focus node for property pair constraint" id="dfn-neighborhood-property-pair" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for property pair constraint</dfn> is empty.</p><p>The <dfn data-lt="equals-property-pair|neighborhood of a focus for an equals constraint" id="dfn-equals-property-pair" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus for an equals constraint</dfn> contains all triples in the data graph with subject <code>x</code> and the predicate specified after <code>sh:equals</code>. Additionaly, for an equals constraint that is part of a <a data-link-type="dfn" href="#dfn-property-shapes" class="internalDFN" id="ref-for-dfn-property-shapes-6">property shape</a>, i.e., a shape with a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-8">property path</a>, the neighborhood of a focus node <code>x</code> includes the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-7">path triples</a> between <code>x</code> and <code>y</code> for the property path for all value nodes <code>y</code>.</p><aside id="ex-equals" class="example"><div class="marker">
+    <a class="self-link" href="#ex-equals">Example<bdi> 14</bdi></a><span class="example-title">: Example with an equals constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice :firstName "Alice" ;
+       :givenName "Allie" .
+:Bob   :firstName "Bob" ;
+       :givenName "Bob" .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:EqualExampleShape a sh:NodeShape ;
+  sh:targetNode :Alice, :Bob ;
+  sh:property [
+    sh:path   :firstName ;
+    sh:equals :givenName ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Bob :firstName "Bob" ;
+     :givenName "Bob" .</code></pre>
+</aside></section><section id="logical-constraint-components-excluding-negation"><h3 id="x6-6-logical-constraint-components-excluding-negation"><bdi class="secno">6.6 </bdi>Logical constraint components (excluding negation)<a class="self-link" href="#logical-constraint-components-excluding-negation" aria-label="Permalink for Section 6.6"></a></h3><p><em>Subsection about neighborhoods for constraints of kinds: <code>sh:AndConstraintComponent</code>, <code>sh:OrConstraintComponent</code>, <code>sh:XoneConstraintComponent</code></em></p><p>The <dfn data-lt="neighborhood-logical|neighborhood of a focus node for a logical constraint of kind &quot;and&quot;, &quot;or&quot; or &quot;xone&quot;" id="dfn-neighborhood-logical" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a logical constraint of kind "and", "or" or "xone"</dfn> are those triples in the data graph that show that the focus node satisfies the logical constraint. Such a neighborhood contains, for each shape <code>s</code> specified in the parameter list of the logical constraint and for each value node <code>y</code> of the focus node, the <a data-link-type="dfn" data-lt="neighborhood-shape" href="#dfn-neighborhood-shape" class="internalDFN" id="ref-for-dfn-neighborhood-shape-2">(shape) neighborhood</a> of <code>y</code> for <code>s</code>. Additionaly, for a logical constraint that is part of a <a data-link-type="dfn" href="#dfn-property-shapes" class="internalDFN" id="ref-for-dfn-property-shapes-7">property shape</a>, i.e., a shape with a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-9">property path</a>, the neighborhood of a focus node <code>x</code> includes, for each value node <code>y</code>, the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-8">path triples</a> between <code>x</code> and <code>y</code> for the shape's property path.</p><aside id="ex-and" class="example"><div class="marker">
+    <a class="self-link" href="#ex-and">Example<bdi> 15</bdi></a><span class="example-title">: Example with an and constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:ValidInstance   :property "One" .
+:InvalidInstance :property "One" ;
+                 :property "Two" .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:SuperShape a sh:NodeShape ;
+  sh:property [
+  sh:path :property ;
+  sh:minCount 1 ; ] .
+:ExampleAndShape a sh:NodeShape ;
+  sh:targetNode :ValidInstance, :InvalidInstance ;
+  sh:and ( :SuperShape
+           [ sh:path :property ;
+             sh:maxCount 1 ; ] ) .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:ValidInstance :property "One" .</code></pre>
+</aside><aside id="ex-or" class="example"><div class="marker">
+    <a class="self-link" href="#ex-or">Example<bdi> 16</bdi></a><span class="example-title">: Example with an or constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Bob :firstName "Robert" .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:OrConstraintExampleShape a sh:NodeShape ;
+  sh:targetNode :Bob ;
+  sh:or ( [ sh:path :firstName ;
+            sh:minCount 1 ; ]
+          [ sh:path :givenName ;
+            sh:minCount 1 ; ] ) .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Bob :firstName "Robert" .</code></pre>
+</aside><aside id="ex-xone" class="example"><div class="marker">
+    <a class="self-link" href="#ex-xone">Example<bdi> 17</bdi></a><span class="example-title">: Example with an exactly one constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Bob a :Person ;
+  :firstName "Robert" ;
+  :lastName  "Coin" .
+:Carla a :Person ;
+  :fullName "Carla Miller" .
+:Dory a :Person ;
+  :firstName "Dory" ;
+  :lastName  "Dunce" ;
+  :fullName  "Dory Dunce" .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:XoneConstraintExampleShape a sh:NodeShape ;
+  sh:targetClass :Person ;
+  sh:xone ( [ sh:property [
+                sh:path :fullName ;
+                sh:minCount 1 ; ] ; ]
+            [ sh:property [
+                sh:path :firstName ;
+                sh:minCount 1 ; ] ;
+            [ sh:property [
+                sh:path :lastName ;
+                sh:minCount 1 ; ] ; ] ) .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Bob a :Person ;
+  :firstName "Robert" ;
+  :lastName  "Coin" .
+:Carla a :Person ;
+  :fullName "Carla Miller" .</code></pre>
+</aside></section><section id="shape-based-constraint-components"><h3 id="x6-7-shape-based-constraint-components"><bdi class="secno">6.7 </bdi>Shape-based constraint components<a class="self-link" href="#shape-based-constraint-components" aria-label="Permalink for Section 6.7"></a></h3><p><em>Subsection about neighborhoods for constraints of kinds: <code>sh:NodeConstraintComponent</code>, <code>sh:PropertyShapeComponent</code>, <code>sh:QualifiedMinCountConstraintComponent</code>, <code>sh:QualifiedMaxCountConstraintComponent</code></em></p><p>The <dfn data-lt="neighborhood-node-property|neighborhood of a focus node for a node or property constraint" id="dfn-neighborhood-node-property" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a node or property constraint</dfn> (<code>sh:node</code>, <code>sh:property</code>) contains the triples from the <a data-link-type="dfn" href="#dfn-data-graph" class="internalDFN" id="ref-for-dfn-data-graph-3">data graph</a> that show that the focus node satisfies the shape-based constraint. In particular, these neighborhoods include those triples from the data graph that show that each of the <a data-link-type="dfn" href="#dfn-value-nodes" class="internalDFN" id="ref-for-dfn-value-nodes-5">value nodes</a> satisfies the shape specified after <code>sh:node</code> or <code>sh:property</code>. Concretely, for each value node <code>y</code>, the <a data-link-type="dfn" data-lt="neighborhood-shape" href="#dfn-neighborhood-shape" class="internalDFN" id="ref-for-dfn-neighborhood-shape-3">(shape) neighborhood</a> of <code>y</code> for the shape specified after <code>sh:node</code>/<code>sh:property</code> is included in the neighborhood of a focus node for  a node or property constraint. 
+Additionaly, for a node or property constraint that is part of a <a data-link-type="dfn" href="#dfn-property-shapes" class="internalDFN" id="ref-for-dfn-property-shapes-8">property shape</a>, i.e., a shape with a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-10">property path</a>, the neighborhood of a focus node <code>x</code> includes, for each value node <code>y</code>, the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-9">path triples</a> between <code>x</code> and <code>y</code> for the shape's property path.</p><aside id="ex-node" class="example"><div class="marker">
+    <a class="self-link" href="#ex-node">Example<bdi> 18</bdi></a><span class="example-title">: Example with a node constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Bob a :Person ;
+    :address :BobsAddress .
+:BobsAddress :postalCode "1234" .
+:Reto a :Person ;
+    :address :RetosAddress .
+:RetosAddress :postalCode 5678 .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:AddressShape a sh:NodeShape ;
+  sh:property [
+    sh:path :postalCode ;
+    sh:datatype xsd:string ;
+    sh:maxCount 1 ; ] .
+:PersonShape a sh:NodeShape ;
+  sh:targetClass :Person ;
+  sh:property [   # _:b1
+    sh:path :address ;
+    sh:minCount 1 ;
+    sh:node :AddressShape ;  ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Bob a :Person ;
+  :address :BobsAddress .
+:BobsAddress :postalCode "1234" .</code></pre>
+</aside><p>The <dfn data-lt="neighborhood-qualifiedMinCount|neighborhood of a focus node for a qualified min count constraint" id="dfn-neighborhood-qualifiedmincount" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a qualified min count constraint</dfn> contains those triples from the <a data-link-type="dfn" href="#dfn-data-graph" class="internalDFN" id="ref-for-dfn-data-graph-4">data graph</a> that show that the <a data-link-type="dfn" href="#dfn-focus-nodes" class="internalDFN" id="ref-for-dfn-focus-nodes-2">focus node</a> has the required amount of <a data-link-type="dfn" href="#dfn-value-nodes" class="internalDFN" id="ref-for-dfn-value-nodes-6">value nodes</a> that satisfy the specified shape. 
+A neighborhood of a focus node <code>x</code> for a qualified min count constraint with qualified shape <code>s</code> contains, for each value node <code>y</code>:</p><ul>
+<li>(Only if the constraint is part of a <a data-link-type="dfn" href="#dfn-property-shapes" class="internalDFN" id="ref-for-dfn-property-shapes-9">property shape</a>, i.e., a shape with a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-11">property path</a>,) the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-10">path triples</a> between <code>x</code> and <code>y</code> for the property path .</li>
+<li>(Only if <code>y</code> satisfies <code>s</code>,) the <a data-link-type="dfn" data-lt="neighborhood-shape" href="#dfn-neighborhood-shape" class="internalDFN" id="ref-for-dfn-neighborhood-shape-4">(shape) neighborhood</a> of <code>y</code> for <code>s</code>.</li>
+</ul><aside id="ex-qualifiedMinCount" class="example"><div class="marker">
+    <a class="self-link" href="#ex-qualifiedMinCount">Example<bdi> 19</bdi></a><span class="example-title">: Example with a qualified min count constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:QualifiedValueShapeExampleValidResource
+  :parent :John ;
+  :parent :Jane .
+:John :gender :male .
+:Jane :gender :female .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:QualifiedValueShapeExampleShape a sh:NodeShape ;
+  sh:targetNode :QualifiedValueShapeExampleValidResource ;
+  sh:property [
+    sh:path :parent ;
+    sh:minCount 2 ;
+    sh:maxCount 2 ;
+    sh:qualifiedValueShape [
+       sh:path :gender ;
+       sh:hasValue :female ; ] ;
+    sh:qualifiedMinCount 1 ; ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:QualifiedValueShapeExampleValidResource
+  :parent :John ;
+  :parent :Jane .
+:Jane :gender :female .</code></pre>
+</aside><p>The <dfn data-lt="neighborhood-qualifiedMaxCount|neighborhood of a focus node for a qualified max count constraint" id="dfn-neighborhood-qualifiedmaxcount" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a qualified max count constraint</dfn> contains those triples from the <a data-link-type="dfn" href="#dfn-data-graph" class="internalDFN" id="ref-for-dfn-data-graph-5">data graph</a> that show that the <a data-link-type="dfn" href="#dfn-focus-nodes" class="internalDFN" id="ref-for-dfn-focus-nodes-3">focus node</a> has no more than the allowed amount of <a data-link-type="dfn" href="#dfn-value-nodes" class="internalDFN" id="ref-for-dfn-value-nodes-7">value nodes</a> that satisfy the specified shape. 
+A neighborhood of a focus node <code>x</code> for a qualified max count constraint with qualified shape <code>s</code> contains, for each value node <code>y</code>:</p><ul>
+<li>(Only if the constraint is part of a <a data-link-type="dfn" href="#dfn-property-shapes" class="internalDFN" id="ref-for-dfn-property-shapes-10">property shape</a>, i.e., a shape with a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-12">property path</a>,) the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-11">path triples</a> between <code>x</code> and <code>y</code> for the property path .</li>
+<li>(Only if <code>y</code> satisfies the <a data-link-type="dfn" href="#dfn-negation" class="internalDFN" id="ref-for-dfn-negation-1">negation</a> of <code>s</code>,) the <a data-link-type="dfn" data-lt="neighborhood-shape" href="#dfn-neighborhood-shape" class="internalDFN" id="ref-for-dfn-neighborhood-shape-5">(shape) neighborhood</a> of <code>y</code> for <code>s</code>.</li>
+</ul></section><section id="other-constraints"><h3 id="x6-8-other-constraints"><bdi class="secno">6.8 </bdi>Other constraints<a class="self-link" href="#other-constraints" aria-label="Permalink for Section 6.8"></a></h3><p><em>Subsection about neighborhoods for constraints of kinds: sh:ClosedConstraintComponent, sh:HasValueConstraintComponent, sh:InConstraintComponent</em></p><p>The <dfn data-lt="neighborhood-closed|neighborhood of a focus node for a closed constraint" id="dfn-neighborhood-closed" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a closed constraint</dfn> is empty. Such a constraint (like all other constraints) influences whether the focus node satisfies the shape of which the constraint is part, and therefore influences whether the <a data-link-type="dfn" data-lt="neighborhood-shape" href="#dfn-neighborhood-shape" class="internalDFN" id="ref-for-dfn-neighborhood-shape-6">neighborhood of the focus node for that shape</a> is empty, but the constraint itself has does not contribute to the neighborhood for that shape. </p><aside id="ex-closed" class="example"><div class="marker">
+    <a class="self-link" href="#ex-closed">Example<bdi> 20</bdi></a><span class="example-title">: Example with a closed constraint</span>
+  </div>
+Example with <code>sh:closed</code>: 
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice :firstName "Alice" .
+:Bob :firstName "Bob" ;
+     :middleInitial "J" .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:ClosedShapeExampleShape a sh:NodeShape ;
+  sh:targetNode :Alice, :Bob ;
+  sh:closed true ;
+  sh:ignoredProperties (rdf:type) ;
+  sh:property [ sh:path :firstName ; ] ;
+  sh:property [ sh:path :lastName ; ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Alice :firstName "Alice" .</code></pre>
+</aside><p>The <dfn data-lt="neighborhood-hasValue|neighborhood of a focus node for a has value constraint" id="dfn-neighborhood-hasvalue" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a has value constraint</dfn> contains those triples from the <a data-link-type="dfn" href="#dfn-data-graph" class="internalDFN" id="ref-for-dfn-data-graph-6">data graph</a> that show that at least one of the <a data-link-type="dfn" href="#dfn-focus-nodes" class="internalDFN" id="ref-for-dfn-focus-nodes-4">focus node</a>'s <a data-link-type="dfn" href="#dfn-value-nodes" class="internalDFN" id="ref-for-dfn-value-nodes-8">value nodes</a> has the required value.
+For a has value constraint that has required value <code>v</code>  and that is part of a <a data-link-type="dfn" href="#dfn-property-shapes" class="internalDFN" id="ref-for-dfn-property-shapes-11">property shape</a>, i.e., a shape that has a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-13">property path</a>, the neighborhood of a focus node <code>x</code> contains, for each value node <code>y</code> <em>that is equal to <code>v</code></em>, the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-12">path triples</a> between start node <code>x</code> and end node <code>y</code> for the property shape's property path.</p><aside id="ex-hasValue" class="example"><div class="marker">
+    <a class="self-link" href="#ex-hasValue">Example<bdi> 21</bdi></a><span class="example-title">: Example with a has value constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice :alumniOf :Harvard ;
+       :alumniOf :Stanford .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:StanfordGraduate a sh:NodeShape ;
+  sh:targetNode :Alice ;
+  sh:property [
+    sh:path :alumniOf ;
+    sh:hasValue :Stanford ; ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Alice :alumniOf :Stanford .</code></pre>
+</aside><p>The <dfn data-lt="neighborhood-in|neighborhood of a focus node for an in constraint" id="dfn-neighborhood-in" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for an in constraint</dfn> contains those triples from the <a data-link-type="dfn" href="#dfn-data-graph" class="internalDFN" id="ref-for-dfn-data-graph-7">data graph</a> that show that all of the <a data-link-type="dfn" href="#dfn-focus-nodes" class="internalDFN" id="ref-for-dfn-focus-nodes-5">focus node</a>'s <a data-link-type="dfn" href="#dfn-value-nodes" class="internalDFN" id="ref-for-dfn-value-nodes-9">value nodes</a> have one of the required values.
+For in constraints that are part of a <a data-link-type="dfn" href="#dfn-property-shapes" class="internalDFN" id="ref-for-dfn-property-shapes-12">property shape</a>, i.e., a shape that has a <a data-link-type="dfn" href="#dfn-property-paths" class="internalDFN" id="ref-for-dfn-property-paths-14">property path</a>, the neighborhood of a focus node <code>x</code> contains, for each value node <code>y</code>, the <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-13">path triples</a> between start node <code>x</code> and end node <code>y</code> for the property shape's property path.</p><aside id="ex-hasValue" class="example"><div class="marker">
+    <a class="self-link" href="#ex-hasValue">Example<bdi> 22</bdi></a><span class="example-title">: Example with a has value constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:RainbowPony :color :Pink .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:InExampleShape a sh:NodeShape ;
+  sh:targetNode :RainbowPony ;
+  sh:property [
+    sh:path :color ;
+    sh:in ( :Pink :Purple ) ; ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:RainbowPony :color :Pink .</code></pre>
+</aside></section></section>
+
+<section id="negation"><h2 id="x7-negation"><bdi class="secno">7. </bdi>Negation<a class="self-link" href="#negation" aria-label="Permalink for Section 7."></a></h2><p><em>Subsection about neighborhoods for constraints of kinds: <code>sh:NotConstraintComponent</code></em></p><p><dfn data-lt="negation|Negated shapes" id="dfn-negation" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Negated shapes</dfn> are shapes which a <a data-link-type="dfn" href="#dfn-focus-nodes" class="internalDFN" id="ref-for-dfn-focus-nodes-6">focus node</a> should <em>not</em> satisfy. In SHACL, they are defined using <code>sh:not</code> or <code>sh:qualifiedMaxCount</code>; the latter says that enough of the focus node's <a data-link-type="dfn" href="#dfn-value-nodes" class="internalDFN" id="ref-for-dfn-value-nodes-10">value nodes</a> do <em>not</em> satisfy the qualified shape. </p><p>The <dfn id="dfn-neighborhood-of-a-focus-node-for-a-negated-shape" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">neighborhood of a focus node for a negated shape</dfn> depends on the constraints that compose the shape being negated. Neighborhood definitions for five <a data-link-type="dfn" href="#dfn-kind" class="internalDFN" id="ref-for-dfn-kind-2">kinds</a> of constraints in the next five paragraphs are given; for other constraint kinds they are empty. Note: shapes with multiple constraints are treated as conjunctions, so the negation of such a shape should be treated like a negated conjunction (negation of <code>sh:and</code>).</p><p>For some constraint types, we define the neighborhood of their negation by giving an equivalent shape.  An engine could implement this for example using shape rewriting. The rewriting is guaranteed to end; it is always possible to reach a negation normal form where the neighborhood of every negated constraint is clearly defined.</p><section id="negation-of-cardinality-constraints"><h3 id="x7-1-negation-of-cardinality-constraints"><bdi class="secno">7.1 </bdi>Negation of cardinality constraints<a class="self-link" href="#negation-of-cardinality-constraints" aria-label="Permalink for Section 7.1"></a></h3><p>The negation of cardinality constraints is given by changing the cardinality constraint’s direction. As shown per example:</p><aside id="ex-not-minCount" class="example"><div class="marker">
+    <a class="self-link" href="#ex-not-minCount">Example<bdi> 23</bdi></a><span class="example-title">: Negation of a min count constraint</span>
+  </div>
+Following shapes are equivalent by pushing the negation (<code>sh:not</code>) inside the min count constraint (<code>sh:minCount</code>):
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:negatedMinCountShape
+  sh:not [ 
+    sh:path :path ;
+    sh:minCount 4 ] .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:maxCountShape
+  sh:path :path ;
+  sh:maxCount 3 .</code></pre>
+</aside><aside id="ex-not-maxCount" class="example"><div class="marker">
+    <a class="self-link" href="#ex-not-maxCount">Example<bdi> 24</bdi></a><span class="example-title">: Negation of a max count constraint</span>
+  </div>
+Following shapes are equivalent by pushing the negation (<code>sh:not</code>) inside the max count constraint (<code>sh:maxCount</code>):
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:negatedMaxCountShape
+  sh:not [ 
+    sh:path :path ;
+    sh:maxCount 4 ] .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:maxCountShape
+  sh:path :path ;
+  sh:minCount 5 .</code></pre>
+</aside></section><section id="negation-of-shape-based-constraints"><h3 id="x7-2-negation-of-shape-based-constraints"><bdi class="secno">7.2 </bdi>Negation of shape-based constraints<a class="self-link" href="#negation-of-shape-based-constraints" aria-label="Permalink for Section 7.2"></a></h3><p>The neighborhood of negated shape-based constraints is given by pushing the negation inside those constraints and changing the quantifier. The laws we use to define the pushing inside are based on negations of quantified predicates. We illustrate the pushing inside by example for negated node shape constraints, negated qualified min count constraints and negated qualified max count constraints:</p><aside id="ex-not-node" class="example"><div class="marker">
+    <a class="self-link" href="#ex-not-node">Example<bdi> 25</bdi></a><span class="example-title">: Negation of a node constraint</span>
+  </div>
+Following shapes are equivalent by pushing the negation (<code>sh:not</code>) inside the node shape constraint (<code>sh:node</code>):
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:negatedNodeShape
+  sh:not [ 
+    sh:path :path ;
+    sh:node :shape ] .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:minOneCounterExampleShape
+  sh:path :path ; 
+  sh:qualifiedMinCount 1 ;
+  sh:qualifiedValueShape [ 
+    sh:not :shape ] .</code></pre>
+</aside><aside id="ex-not-qualifiedMinCount" class="example"><div class="marker">
+    <a class="self-link" href="#ex-not-qualifiedMinCount">Example<bdi> 26</bdi></a><span class="example-title">: Negation of a qualified min count constraint</span>
+  </div>
+Following shapes are equivalent by pushing the negation (<code>sh:not</code>) inside the qualified min count constraint (<code>sh:qualifiedMinCount</code>) and changing the qualified cardinality accordingly:
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:negatedQualifiedMinCountShape
+  sh:not [ 
+    sh:path :path ;
+    sh:qualifiedMinCount 4 ;
+    sh:qualifiedValueShape :shape ] .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:maxCountNegationShape
+  sh:path :path ;
+  sh:qualifiedMaxCount 3 ;
+  sh:qualfiedValueShape [
+    sh:not :shape ] .</code></pre>
+</aside><aside id="ex-not-qualifedMaxCount" class="example"><div class="marker">
+    <a class="self-link" href="#ex-not-qualifedMaxCount">Example<bdi> 27</bdi></a><span class="example-title">: Negation of a qualified max count constraint</span>
+  </div>
+Following shapes are equivalent by pushing the negation (<code>sh:not</code>) inside the qualified max count constraint (<code>sh:qualifiedMaxCount</code>) and changing the qualified cardinality accordingly:
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:negatedQualifiedMaxCountShape
+  sh:not [ 
+    sh:path :path ;
+    sh:qualifiedMaxCount 4 ;
+    sh:qualifiedValueShape :shape ] .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:minCountNegationShape
+  sh:path :path ;
+  sh:qualifiedMinCount 5 ;
+  sh:qualfiedValueShape [
+    sh:not :shape ] .</code></pre>
+</aside></section><section id="negation-of-logical-constraints"><h3 id="x7-3-negation-of-logical-constraints"><bdi class="secno">7.3 </bdi>Negation of logical constraints<a class="self-link" href="#negation-of-logical-constraints" aria-label="Permalink for Section 7.3"></a></h3><p>The neighborhood of negated logical constraints is given by pushing the negation inside those constraints using logical laws. Negating another negation removes both negations (double negative). For the other logical constraints, <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws">De Morgan’s laws</a> are used.</p><aside id="ex-not-and" class="example"><div class="marker">
+    <a class="self-link" href="#ex-not-and">Example<bdi> 28</bdi></a><span class="example-title">: Negation of an and constraint</span>
+  </div>
+Following shapes are equivalent by pushing the negation (<code>sh:not</code>) inside the conjunction (<code>sh:and</code>) using De Morgan’s law:
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:negatedConjunctionShape
+  sh:not [ 
+    sh:and ( :shape1 :shape2) ] .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:disjunctedNegationShape
+  sh:or ( 
+    [ sh:not :shape1 ]
+    [ sh:not :shape2 ] ) .</code></pre>
+</aside></section><section id="negation-of-property-pair-constraints"><h3 id="x7-4-negation-of-property-pair-constraints"><bdi class="secno">7.4 </bdi>Negation of property pair constraints<a class="self-link" href="#negation-of-property-pair-constraints" aria-label="Permalink for Section 7.4"></a></h3><p>The neighborhoods of negated property pair constraints contain those triples that show the property pair constraint is not satisfied. To define these neighborhoods, we will call use the name <code>E</code> to refer to the constraint’s property path expression and we will use <code>p</code> to refer to the property specified as after the property pair constraint’s parameter (<code>sh:equals</code>/<code>sh:disjoint</code>/<code>sh:lessThan</code>/<code>sh:lessThanOrEquals</code>).</p><p>The neighborhood of a focus node <code>x</code> for a negated equals constraint contains:</p><ul>
+<li>The <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-14">path triples</a> for start node <code>x</code> and end node <code>y</code> for <code>E</code>, for those nodes <code>y</code> that are reachable from <code>x</code> through an <code>E</code>-path, but not through a <code>p</code>-path.</li>
+<li>The triples in the data graph that have subject <code>x</code>, predicate <code>p</code>, and object <code>y</code>, on the condition that <code>y</code> is not also reachable from <code>x</code> through an <code>E</code>-path.</li>
+</ul><p>The neighborhood of a focus node <code>x</code> for a negated disjointness constraint contains, for all nodes <code>y</code> that are both reachable from <code>x</code> through an <code>E</code>-path and a <code>p</code>-path:</p><ul>
+<li>The <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-15">path triples</a> for start node <code>x</code> and end node <code>y</code> for <code>E</code>.</li>
+<li>The triple <code>(x, p, y)</code>.</li>
+</ul><p>For all nodes <code>y</code>, <code>z</code> where these three conditions hold: (i) <code>y</code> is not less than <code>z</code> (resp. <code>y</code> is not less than or equals) <code>z</code>, (ii) <code>y</code> is reachable from <code>z</code> through an <code>E</code>-path and (iii) <code>z</code> is reachable from <code>x</code> through a <code>p</code>-path, the neighborhood of a focus node <code>x</code> for a negated less than constraint (resp. less than or equal) contains:</p><ul>
+<li>The <a data-link-type="dfn" href="#dfn-path-triples" class="internalDFN" id="ref-for-dfn-path-triples-16">path triples</a> for start node <code>x</code> and end node <code>y</code> for <code>E</code>.</li>
+<li>The triple <code>(x, p, y)</code>.</li>
+</ul></section><section id="negation-of-closure"><h3 id="x7-5-negation-of-closure"><bdi class="secno">7.5 </bdi>Negation of closure<a class="self-link" href="#negation-of-closure" aria-label="Permalink for Section 7.5"></a></h3><p>The neighborhood of a node and a negated closed constraint component contains all triples in the data graph that (i) have the given node as subject and (ii) have a predicate that is neither specified in any property shape of non-closed shape, nor in the ignored property list.</p><aside id="ex-not-and" class="example"><div class="marker">
+    <a class="self-link" href="#ex-not-and">Example<bdi> 29</bdi></a><span class="example-title">: Negation of a closed constraint</span>
+  </div>
+<pre class="ex-input" aria-busy="false"><code class="hljs">:Alice :firstName     "Alice" .
+:Bob   :firstName     "Bob" ;
+       :middleInitial "J" .</code></pre>
+<pre class="ex-shape" aria-busy="false"><code class="hljs">:ClosedShapeExampleShape a sh:NodeShape ;
+    sh:targetNode ex:Alice, ex:Bob ;
+    sh:not [ sh:closed true ] ;
+    sh:ignoredProperties (rdf:type) ;
+    sh:property [ sh:path:firstName ] ;
+    sh:property [ sh:path:lastName  ] .</code></pre>
+<pre class="ex-output" aria-busy="false"><code class="hljs">:Bob :firstName "Bob" ;   # from the first property constraint’s neighborhood
+     :middleInitial "J" . # from the negated closure’s neighborhood</code></pre>
+</aside></section></section>
+
+
+
+<section id="references" class="appendix"><h2 id="a-references"><bdi class="secno">A. </bdi>References<a class="self-link" href="#references" aria-label="Permalink for Appendix A."></a></h2><section id="normative-references">
+    <h3 id="a-1-normative-references"><bdi class="secno">A.1 </bdi>Normative references<a class="self-link" href="#normative-references" aria-label="Permalink for Appendix A.1"></a></h3>
+    <dl class="bibliography"><dt id="bib-rdf-concepts">[RDF-concepts]</dt><dd><a href="https://www.w3.org/TR/rdf-concepts/"><cite>Resource Description Framework (RDF): Concepts and Abstract Syntax</cite></a>. Graham Klyne; Jeremy Carroll.  W3C. 10 February 2004. W3C Recommendation. URL: <a href="https://www.w3.org/TR/rdf-concepts/">https://www.w3.org/TR/rdf-concepts/</a></dd><dt id="bib-shacl">[SHACL]</dt><dd><a href="https://www.w3.org/TR/shacl/"><cite>Shapes Constraint Language (SHACL)</cite></a>. Holger Knublauch; Dimitris Kontokostas.  W3C. 20 July 2017. W3C Recommendation. URL: <a href="https://www.w3.org/TR/shacl/">https://www.w3.org/TR/shacl/</a></dd><dt id="bib-turtle">[Turtle]</dt><dd><a href="https://www.w3.org/TR/turtle/"><cite>RDF 1.1 Turtle</cite></a>. Eric Prud'hommeaux; Gavin Carothers.  W3C. 25 February 2014. W3C Recommendation. URL: <a href="https://www.w3.org/TR/turtle/">https://www.w3.org/TR/turtle/</a></dd></dl>
+  </section></section><p role="navigation" id="back-to-top">
+    <a href="#title"><abbr title="Back to Top">↑</abbr></a>
+  </p><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-data-graph" aria-label="Links in this document to definition: data graph">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-data-graph" aria-label="Permalink for definition: data graph. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-data-graph-1" title="§ 6. Constraint neighborhoods">§ 6. Constraint neighborhoods</a> 
+  </li><li>
+    <a href="#ref-for-dfn-data-graph-2" title="§ 6.1 Value type constraint components">§ 6.1 Value type constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-data-graph-3" title="§ 6.7 Shape-based constraint components">§ 6.7 Shape-based constraint components</a> <a href="#ref-for-dfn-data-graph-4" title="Reference 2">(2)</a> <a href="#ref-for-dfn-data-graph-5" title="Reference 3">(3)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-data-graph-6" title="§ 6.8 Other constraints">§ 6.8 Other constraints</a> <a href="#ref-for-dfn-data-graph-7" title="Reference 2">(2)</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-shapes-graph" aria-label="Links in this document to definition: shapes graph">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-shapes-graph" aria-label="Permalink for definition: shapes graph. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-shapes" aria-label="Links in this document to definition: shapes">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-shapes" aria-label="Permalink for definition: shapes. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-target-declarations" aria-label="Links in this document to definition: target declarations">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-target-declarations" aria-label="Permalink for definition: target declarations. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-target-declarations-1" title="§ 5.2 Target triples">§ 5.2 Target triples</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-constraints" aria-label="Links in this document to definition: constraints">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-constraints" aria-label="Permalink for definition: constraints. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-constraints-1" title="§ 5.1 Shape neighborhoods">§ 5.1 Shape neighborhoods</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-target" aria-label="Links in this document to definition: target">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-target" aria-label="Permalink for definition: target. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-target-1" title="§ 5. Extracting subgraphs with shapes">§ 5. Extracting subgraphs with shapes</a> 
+  </li><li>
+    <a href="#ref-for-dfn-target-2" title="§ 5.2 Target triples">§ 5.2 Target triples</a> <a href="#ref-for-dfn-target-3" title="Reference 2">(2)</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-kind" aria-label="Links in this document to definition: kind">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-kind" aria-label="Permalink for definition: kind. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-kind-1" title="§ 6. Constraint neighborhoods">§ 6. Constraint neighborhoods</a> 
+  </li><li>
+    <a href="#ref-for-dfn-kind-2" title="§ 7. Negation">§ 7. Negation</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-constraint-component" aria-label="Links in this document to definition: constraint component">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-constraint-component" aria-label="Permalink for definition: constraint component. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-prameters" aria-label="Links in this document to definition: prameters">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-prameters" aria-label="Permalink for definition: prameters. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-node-shape" aria-label="Links in this document to definition: node shape">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-node-shape" aria-label="Permalink for definition: node shape. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-node-shape-1" title="§ 2. Terminology">§ 2. Terminology</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-property-shapes" aria-label="Links in this document to definition: property shapes">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-property-shapes" aria-label="Permalink for definition: property shapes. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-property-shapes-1" title="§ 2. Terminology">§ 2. Terminology</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-shapes-2" title="§ 6.1 Value type constraint components">§ 6.1 Value type constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-shapes-3" title="§ 6.2 Cardinality constraint components">§ 6.2 Cardinality constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-shapes-4" title="§ 6.3 Value range constraint components">§ 6.3 Value range constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-shapes-5" title="§ 6.4 String-based constraint components">§ 6.4 String-based constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-shapes-6" title="§ 6.5 Property pair constraint components">§ 6.5 Property pair constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-shapes-7" title="§ 6.6 Logical constraint components (excluding negation)">§ 6.6 Logical constraint components (excluding negation)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-shapes-8" title="§ 6.7 Shape-based constraint components">§ 6.7 Shape-based constraint components</a> <a href="#ref-for-dfn-property-shapes-9" title="Reference 2">(2)</a> <a href="#ref-for-dfn-property-shapes-10" title="Reference 3">(3)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-shapes-11" title="§ 6.8 Other constraints">§ 6.8 Other constraints</a> <a href="#ref-for-dfn-property-shapes-12" title="Reference 2">(2)</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-property-paths" aria-label="Links in this document to definition: property paths">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-property-paths" aria-label="Permalink for definition: property paths. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-property-paths-1" title="§ 2. Terminology">§ 2. Terminology</a> <a href="#ref-for-dfn-property-paths-2" title="Reference 2">(2)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-paths-3" title="§ 5.3 Path triples">§ 5.3 Path triples</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-paths-4" title="§ 6.1 Value type constraint components">§ 6.1 Value type constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-paths-5" title="§ 6.2 Cardinality constraint components">§ 6.2 Cardinality constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-paths-6" title="§ 6.3 Value range constraint components">§ 6.3 Value range constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-paths-7" title="§ 6.4 String-based constraint components">§ 6.4 String-based constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-paths-8" title="§ 6.5 Property pair constraint components">§ 6.5 Property pair constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-paths-9" title="§ 6.6 Logical constraint components (excluding negation)">§ 6.6 Logical constraint components (excluding negation)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-paths-10" title="§ 6.7 Shape-based constraint components">§ 6.7 Shape-based constraint components</a> <a href="#ref-for-dfn-property-paths-11" title="Reference 2">(2)</a> <a href="#ref-for-dfn-property-paths-12" title="Reference 3">(3)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-property-paths-13" title="§ 6.8 Other constraints">§ 6.8 Other constraints</a> <a href="#ref-for-dfn-property-paths-14" title="Reference 2">(2)</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-predicate-path" aria-label="Links in this document to definition: predicate path">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-predicate-path" aria-label="Permalink for definition: predicate path. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-concatenation" aria-label="Links in this document to definition: concatenation">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-concatenation" aria-label="Permalink for definition: concatenation. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-inversion" aria-label="Links in this document to definition: inversion">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-inversion" aria-label="Permalink for definition: inversion. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-transitive-closure" aria-label="Links in this document to definition: transitive closure">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-transitive-closure" aria-label="Permalink for definition: transitive closure. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-focus-nodes" aria-label="Links in this document to definition: Focus nodes">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-focus-nodes" aria-label="Permalink for definition: Focus nodes. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-focus-nodes-1" title="§ 2. Terminology">§ 2. Terminology</a> 
+  </li><li>
+    <a href="#ref-for-dfn-focus-nodes-2" title="§ 6.7 Shape-based constraint components">§ 6.7 Shape-based constraint components</a> <a href="#ref-for-dfn-focus-nodes-3" title="Reference 2">(2)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-focus-nodes-4" title="§ 6.8 Other constraints">§ 6.8 Other constraints</a> <a href="#ref-for-dfn-focus-nodes-5" title="Reference 2">(2)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-focus-nodes-6" title="§ 7. Negation">§ 7. Negation</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-value-nodes" aria-label="Links in this document to definition: value nodes">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-value-nodes" aria-label="Permalink for definition: value nodes. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-value-nodes-1" title="§ 2. Terminology">§ 2. Terminology</a> <a href="#ref-for-dfn-value-nodes-2" title="Reference 2">(2)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-value-nodes-3" title="§ 6.1 Value type constraint components">§ 6.1 Value type constraint components</a> <a href="#ref-for-dfn-value-nodes-4" title="Reference 2">(2)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-value-nodes-5" title="§ 6.7 Shape-based constraint components">§ 6.7 Shape-based constraint components</a> <a href="#ref-for-dfn-value-nodes-6" title="Reference 2">(2)</a> <a href="#ref-for-dfn-value-nodes-7" title="Reference 3">(3)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-value-nodes-8" title="§ 6.8 Other constraints">§ 6.8 Other constraints</a> <a href="#ref-for-dfn-value-nodes-9" title="Reference 2">(2)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-value-nodes-10" title="§ 7. Negation">§ 7. Negation</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-shapes-graph-fragment" aria-label="Links in this document to definition: shapes graph fragment">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-shapes-graph-fragment" aria-label="Permalink for definition: shapes graph fragment. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-shape-fragment" aria-label="Links in this document to definition: shape fragment">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-shape-fragment" aria-label="Permalink for definition: shape fragment. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-shape-fragment-1" title="§ 5. Extracting subgraphs with shapes">§ 5. Extracting subgraphs with shapes</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-shape" aria-label="Links in this document to definition: neighborhood of a focus node for a shape">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-shape" aria-label="Permalink for definition: neighborhood of a focus node for a shape. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-neighborhood-shape-1" title="§ 5. Extracting subgraphs with shapes">§ 5. Extracting subgraphs with shapes</a> 
+  </li><li>
+    <a href="#ref-for-dfn-neighborhood-shape-2" title="§ 6.6 Logical constraint components (excluding negation)">§ 6.6 Logical constraint components (excluding negation)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-neighborhood-shape-3" title="§ 6.7 Shape-based constraint components">§ 6.7 Shape-based constraint components</a> <a href="#ref-for-dfn-neighborhood-shape-4" title="Reference 2">(2)</a> <a href="#ref-for-dfn-neighborhood-shape-5" title="Reference 3">(3)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-neighborhood-shape-6" title="§ 6.8 Other constraints">§ 6.8 Other constraints</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-target-triples" aria-label="Links in this document to definition: target triples">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-target-triples" aria-label="Permalink for definition: target triples. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-target-triples-1" title="§ 5.1 Shape neighborhoods">§ 5.1 Shape neighborhoods</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-path-triples" aria-label="Links in this document to definition: path triples">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-path-triples" aria-label="Permalink for definition: path triples. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-path-triples-1" title="§ 5.2 Target triples">§ 5.2 Target triples</a> 
+  </li><li>
+    <a href="#ref-for-dfn-path-triples-2" title="§ 6.1 Value type constraint components">§ 6.1 Value type constraint components</a> <a href="#ref-for-dfn-path-triples-3" title="Reference 2">(2)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-path-triples-4" title="§ 6.2 Cardinality constraint components">§ 6.2 Cardinality constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-path-triples-5" title="§ 6.3 Value range constraint components">§ 6.3 Value range constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-path-triples-6" title="§ 6.4 String-based constraint components">§ 6.4 String-based constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-path-triples-7" title="§ 6.5 Property pair constraint components">§ 6.5 Property pair constraint components</a> 
+  </li><li>
+    <a href="#ref-for-dfn-path-triples-8" title="§ 6.6 Logical constraint components (excluding negation)">§ 6.6 Logical constraint components (excluding negation)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-path-triples-9" title="§ 6.7 Shape-based constraint components">§ 6.7 Shape-based constraint components</a> <a href="#ref-for-dfn-path-triples-10" title="Reference 2">(2)</a> <a href="#ref-for-dfn-path-triples-11" title="Reference 3">(3)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-path-triples-12" title="§ 6.8 Other constraints">§ 6.8 Other constraints</a> <a href="#ref-for-dfn-path-triples-13" title="Reference 2">(2)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-path-triples-14" title="§ 7.4 Negation of property pair constraints">§ 7.4 Negation of property pair constraints</a> <a href="#ref-for-dfn-path-triples-15" title="Reference 2">(2)</a> <a href="#ref-for-dfn-path-triples-16" title="Reference 3">(3)</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-constraint" aria-label="Links in this document to definition: neighborhood of a focus node for a constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-constraint" aria-label="Permalink for definition: neighborhood of a focus node for a constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-neighborhood-constraint-1" title="§ 5.1 Shape neighborhoods">§ 5.1 Shape neighborhoods</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-value-type" aria-label="Links in this document to definition: neighborhood of a focus node for a value type constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-value-type" aria-label="Permalink for definition: neighborhood of a focus node for a value type constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-class" aria-label="Links in this document to definition: neighborhood of a focus node for a class constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-class" aria-label="Permalink for definition: neighborhood of a focus node for a class constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-neighborhood-class-1" title="§ 5.2 Target triples">§ 5.2 Target triples</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-cardinality" aria-label="Links in this document to definition: neighborhood of a focus node for a cardinality constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-cardinality" aria-label="Permalink for definition: neighborhood of a focus node for a cardinality constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-value-range" aria-label="Links in this document to definition: neighborhood of a focus node for a value range constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-value-range" aria-label="Permalink for definition: neighborhood of a focus node for a value range constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-string-based" aria-label="Links in this document to definition: neighborhood of a focus node for a string-based constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-string-based" aria-label="Permalink for definition: neighborhood of a focus node for a string-based constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-property-pair" aria-label="Links in this document to definition: neighborhood of a focus node for property pair constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-property-pair" aria-label="Permalink for definition: neighborhood of a focus node for property pair constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-equals-property-pair" aria-label="Links in this document to definition: neighborhood of a focus for an equals constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-equals-property-pair" aria-label="Permalink for definition: neighborhood of a focus for an equals constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-logical" aria-label="Links in this document to definition: neighborhood of a focus node for a logical constraint of kind &quot;and&quot;, &quot;or&quot; or &quot;xone&quot;">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-logical" aria-label="Permalink for definition: neighborhood of a focus node for a logical constraint of kind &quot;and&quot;, &quot;or&quot; or &quot;xone&quot;. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-node-property" aria-label="Links in this document to definition: neighborhood of a focus node for a node or property constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-node-property" aria-label="Permalink for definition: neighborhood of a focus node for a node or property constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-qualifiedmincount" aria-label="Links in this document to definition: neighborhood of a focus node for a qualified min count constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-qualifiedmincount" aria-label="Permalink for definition: neighborhood of a focus node for a qualified min count constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-qualifiedmaxcount" aria-label="Links in this document to definition: neighborhood of a focus node for a qualified max count constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-qualifiedmaxcount" aria-label="Permalink for definition: neighborhood of a focus node for a qualified max count constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-closed" aria-label="Links in this document to definition: neighborhood of a focus node for a closed constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-closed" aria-label="Permalink for definition: neighborhood of a focus node for a closed constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-hasvalue" aria-label="Links in this document to definition: neighborhood of a focus node for a has value constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-hasvalue" aria-label="Permalink for definition: neighborhood of a focus node for a has value constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-in" aria-label="Links in this document to definition: neighborhood of a focus node for an in constraint">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-in" aria-label="Permalink for definition: neighborhood of a focus node for an in constraint. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-negation" aria-label="Links in this document to definition: Negated shapes">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-negation" aria-label="Permalink for definition: Negated shapes. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-negation-1" title="§ 6.7 Shape-based constraint components">§ 6.7 Shape-based constraint components</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-neighborhood-of-a-focus-node-for-a-negated-shape" aria-label="Links in this document to definition: neighborhood of a focus node for a negated shape">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-neighborhood-of-a-focus-node-for-a-negated-shape" aria-label="Permalink for definition: neighborhood of a focus node for a negated shape. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+      <li>Not referenced in this document.</li>
+    </ul>
+    </div><script id="respec-dfn-panel">(() => {
+// @ts-check
+if (document.respec) {
+  document.respec.ready.then(setupPanel);
+} else {
+  setupPanel();
+}
+
+function setupPanel() {
+  const listener = panelListener();
+  document.body.addEventListener("keydown", listener);
+  document.body.addEventListener("click", listener);
+}
+
+function panelListener() {
+  /** @type {HTMLElement} */
+  let panel = null;
+  return event => {
+    const { target, type } = event;
+
+    if (!(target instanceof HTMLElement)) return;
+
+    // For keys, we only care about Enter key to activate the panel
+    // otherwise it's activated via a click.
+    if (type === "keydown" && event.key !== "Enter") return;
+
+    const action = deriveAction(event);
+
+    switch (action) {
+      case "show": {
+        hidePanel(panel);
+        /** @type {HTMLElement} */
+        const dfn = target.closest("dfn, .index-term");
+        panel = document.getElementById(`dfn-panel-for-${dfn.id}`);
+        const coords = deriveCoordinates(event);
+        displayPanel(dfn, panel, coords);
+        break;
+      }
+      case "dock": {
+        panel.style.left = null;
+        panel.style.top = null;
+        panel.classList.add("docked");
+        break;
+      }
+      case "hide": {
+        hidePanel(panel);
+        panel = null;
+        break;
+      }
+    }
+  };
+}
+
+/**
+ * @param {MouseEvent|KeyboardEvent} event
+ */
+function deriveCoordinates(event) {
+  const target = /** @type HTMLElement */ (event.target);
+
+  // We prevent synthetic AT clicks from putting
+  // the dialog in a weird place. The AT events sometimes
+  // lack coordinates, so they have clientX/Y = 0
+  const rect = target.getBoundingClientRect();
+  if (
+    event instanceof MouseEvent &&
+    event.clientX >= rect.left &&
+    event.clientY >= rect.top
+  ) {
+    // The event probably happened inside the bounding rect...
+    return { x: event.clientX, y: event.clientY };
+  }
+
+  // Offset to the middle of the element
+  const x = rect.x + rect.width / 2;
+  // Placed at the bottom of the element
+  const y = rect.y + rect.height;
+  return { x, y };
+}
+
+/**
+ * @param {Event} event
+ */
+function deriveAction(event) {
+  const target = /** @type {HTMLElement} */ (event.target);
+  const hitALink = !!target.closest("a");
+  if (target.closest("dfn:not([data-cite]), .index-term")) {
+    return hitALink ? "none" : "show";
+  }
+  if (target.closest(".dfn-panel")) {
+    if (hitALink) {
+      return target.classList.contains("self-link") ? "hide" : "dock";
+    }
+    const panel = target.closest(".dfn-panel");
+    return panel.classList.contains("docked") ? "hide" : "none";
+  }
+  if (document.querySelector(".dfn-panel:not([hidden])")) {
+    return "hide";
+  }
+  return "none";
+}
+
+/**
+ * @param {HTMLElement} dfn
+ * @param {HTMLElement} panel
+ * @param {{ x: number, y: number }} clickPosition
+ */
+function displayPanel(dfn, panel, { x, y }) {
+  panel.hidden = false;
+  // distance (px) between edge of panel and the pointing triangle (caret)
+  const MARGIN = 20;
+
+  const dfnRects = dfn.getClientRects();
+  // Find the `top` offset when the `dfn` can be spread across multiple lines
+  let closestTop = 0;
+  let minDiff = Infinity;
+  for (const rect of dfnRects) {
+    const { top, bottom } = rect;
+    const diffFromClickY = Math.abs((top + bottom) / 2 - y);
+    if (diffFromClickY < minDiff) {
+      minDiff = diffFromClickY;
+      closestTop = top;
+    }
+  }
+
+  const top = window.scrollY + closestTop + dfnRects[0].height;
+  const left = x - MARGIN;
+  panel.style.left = `${left}px`;
+  panel.style.top = `${top}px`;
+
+  // Find if the panel is flowing out of the window
+  const panelRect = panel.getBoundingClientRect();
+  const SCREEN_WIDTH = Math.min(window.innerWidth, window.screen.width);
+  if (panelRect.right > SCREEN_WIDTH) {
+    const newLeft = Math.max(MARGIN, x + MARGIN - panelRect.width);
+    const newCaretOffset = left - newLeft;
+    panel.style.left = `${newLeft}px`;
+    /** @type {HTMLElement} */
+    const caret = panel.querySelector(".caret");
+    caret.style.left = `${newCaretOffset}px`;
+  }
+
+  // As it's a dialog, we trap focus.
+  // TODO: when <dialog> becomes a implemented, we should really
+  // use that.
+  trapFocus(panel, dfn);
+}
+
+/**
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function trapFocus(panel, dfn) {
+  /** @type NodeListOf<HTMLAnchorElement> elements */
+  const anchors = panel.querySelectorAll("a[href]");
+  // No need to trap focus
+  if (!anchors.length) return;
+
+  // Move focus to first anchor element
+  const first = anchors.item(0);
+  first.focus();
+
+  const trapListener = createTrapListener(anchors, panel, dfn);
+  panel.addEventListener("keydown", trapListener);
+
+  // Hiding the panel releases the trap
+  const mo = new MutationObserver(records => {
+    const [record] = records;
+    const target = /** @type HTMLElement */ (record.target);
+    if (target.hidden) {
+      panel.removeEventListener("keydown", trapListener);
+      mo.disconnect();
+    }
+  });
+  mo.observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+}
+
+/**
+ *
+ * @param {NodeListOf<HTMLAnchorElement>} anchors
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} dfn
+ * @returns
+ */
+function createTrapListener(anchors, panel, dfn) {
+  const lastIndex = anchors.length - 1;
+  let currentIndex = 0;
+  return event => {
+    switch (event.key) {
+      // Hitting "Tab" traps us in a nice loop around elements.
+      case "Tab": {
+        event.preventDefault();
+        currentIndex += event.shiftKey ? -1 : +1;
+        if (currentIndex < 0) {
+          currentIndex = lastIndex;
+        } else if (currentIndex > lastIndex) {
+          currentIndex = 0;
+        }
+        anchors.item(currentIndex).focus();
+        break;
+      }
+
+      // Hitting "Enter" on an anchor releases the trap.
+      case "Enter":
+        hidePanel(panel);
+        break;
+
+      // Hitting "Escape" returns focus to dfn.
+      case "Escape":
+        hidePanel(panel);
+        dfn.focus();
+        return;
+    }
+  };
+}
+
+/** @param {HTMLElement} panel */
+function hidePanel(panel) {
+  if (!panel) return;
+  panel.hidden = true;
+  panel.classList.remove("docked");
+}
+})()</script><script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script></body></html>
